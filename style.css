@@ -1,0 +1,12 @@
+html,
+body {
+	height: 100%;
+}
+
+div.col {
+	background-color: wheat;
+}
+
+div.container {
+	background-color: blue;
+}
