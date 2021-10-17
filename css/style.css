@@ -1,0 +1,48 @@
+html,
+body {
+	height: 100%;
+	color: whitesmoke;
+	font-family: "Roboto", sans-serif;
+}
+
+.fa-linkedin:hover {
+	color: orange !important;
+}
+
+.fa-envelope-square:hover {
+	color: orange !important;
+}
+
+.fa-github-square:hover {
+	color: orange !important;
+}
+
+.row {
+	min-height: 600px;
+	padding: 20px;
+}
+.row-1 {
+	background-color: #f39c12;
+}
+
+.row-2 {
+	background-color: #16a085;
+}
+
+.code {
+	font-size: 8px;
+}
+
+.text {
+	margin-bottom: 20px;
+	text-transform: uppercase;
+}
+table,
+th,
+td {
+	border: 1px solid white;
+}
+
+table {
+	width: 100%;
+}
