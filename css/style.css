@@ -3,6 +3,7 @@ body {
 	height: 100%;
 	color: whitesmoke;
 	font-family: "Roboto", sans-serif;
+	background-color: #534c41;
 }
 
 .fa-linkedin:hover {
@@ -20,13 +21,17 @@ body {
 .row {
 	min-height: 600px;
 	padding: 20px;
+	height: 100vh;
+    width: 100%;
 }
 .row-1 {
-	background-color: #f39c12;
+	
+	display: grid;
+    align-items: center;
 }
 
 .row-2 {
-	background-color: #16a085;
+	//background-color: #16a085;
 }
 
 .code {
