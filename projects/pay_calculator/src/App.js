@@ -11,6 +11,8 @@ import {
 } from "./util";
 import "./App.css";
 
+import IncomeForecast from "./IncomeForecast";
+
 function App() {
 	const currentFinancialYear = getCurrentFinancialYear();
 	const [salary, setSalary] = useState(0);
@@ -240,59 +242,66 @@ function App() {
 
 	return (
 		<div className="App">
-			<h1 className="cfi">Current financial year: {currentFinancialYear}</h1>
-			<InputNumber
-				className="salary"
-				addonAfter="$"
-				defaultValue={salary}
-				onChange={(value) => setSalary(value)}
-			/>
-			<Select
-				className="pay-cycle"
-				defaultValue="Anually"
-				style={{ width: 120 }}
-				// onChange={handleChange}
-				options={[
-					{ value: "Anually", label: "Annually" },
-					{ value: "Monthly", label: "Monthly" },
-					{ value: "Fortnightly", label: "Fortnightly" },
-					{ value: "Weekly", label: "	Weekly" },
-				]}
-			/>
-			<InputNumber
-				className="super"
-				addonAfter="%"
-				defaultValue={superData}
-				onChange={(value) => setSuperData(value)}
-			/>
-			<Switch
-				checkedChildren="Super included"
-				unCheckedChildren="Super not included"
-				className="super-value"
-				onChange={(value) => setIsSuper(value)}
-				defaultChecked={isSuper}
-			/>
-			<Switch
-				checkedChildren="Resident"
-				unCheckedChildren="Non resident"
-				defaultChecked={isResident}
-				onChange={(value) => setIsResident(value)}
-				className="resident"
-			/>
-			<Switch
-				checkedChildren="Including Medicare"
-				unCheckedChildren="Medicare levy exemption"
-				defaultChecked={medicare}
-				onChange={(value) => setMedicare(value)}
-				className="medicare"
-			/>
+			<h1 class="header">Current financial year: {currentFinancialYear}</h1>
+			<div class="input-container">
+				<InputNumber
+					className="salary"
+					addonAfter="$"
+					defaultValue={salary}
+					onChange={(value) => setSalary(value)}
+				/>
+				<Select
+					className="pay-cycle"
+					defaultValue="Anually"
+					style={{ width: 120 }}
+					// onChange={handleChange}
+					options={[
+						{ value: "Anually", label: "Annually" },
+						{ value: "Monthly", label: "Monthly" },
+						{ value: "Fortnightly", label: "Fortnightly" },
+						{ value: "Weekly", label: "	Weekly" },
+					]}
+				/>
+				<InputNumber
+					className="super"
+					addonAfter="%"
+					defaultValue={superData}
+					onChange={(value) => setSuperData(value)}
+				/>
+			</div>
+			<div class="switches">
+				<Switch
+					checkedChildren="Super included"
+					unCheckedChildren="Super not included"
+					className="super-value"
+					onChange={(value) => setIsSuper(value)}
+					defaultChecked={isSuper}
+				/>
+				<Switch
+					checkedChildren="Resident"
+					unCheckedChildren="Non resident"
+					defaultChecked={isResident}
+					onChange={(value) => setIsResident(value)}
+					className="resident"
+				/>
+				<Switch
+					checkedChildren="Including Medicare"
+					unCheckedChildren="Medicare levy exemption"
+					defaultChecked={medicare}
+					onChange={(value) => setMedicare(value)}
+					className="medicare"
+				/>
+			</div>
 
 			<Table
 				columns={columns}
 				dataSource={data}
 				pagination={false}
-				className="calc"
+				className="table"
+				size="middle"
 			/>
+
+			<IncomeForecast class="income-forecast" />
 		</div>
 	);
 }

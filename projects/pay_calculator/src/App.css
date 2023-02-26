@@ -1,41 +1,48 @@
 .App {
 	display: grid;
-	grid-template-rows: auto auto auto auto;
-	/* grid-template-columns: 300px 300px 300px; */
-	gap: 1rem;
-	padding: 10px 10px 10px 10px;
+	grid-template-areas:
+		"header"
+		"input-container"
+		"switches"
+		"table"
+		"income-forecast";
+	grid-template-rows: auto auto auto auto auto;
+	grid-gap: 20px;
+	height: 100vh;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 10px;
 }
 
-.cfi {
-	grid-column: 1 / 4;
-	grid-row: 1 / 2;
+.header {
+	grid-area: header;
 }
 
-.salary {
-	grid-row: 2 / 3;
+.input-container {
+	grid-area: input-container;
+	display: flex;
+	grid-template-columns: repeat(3, 1fr);
+	grid-gap: 10px;
 }
 
-.pay-cycle {
-	grid-row: 2 / 3;
+.input-number {
+	grid-column: 1/2;
 }
 
-.super {
-	grid-row: 2 / 3;
+.select {
+	grid-column: 2/3;
 }
 
-.super-value {
-	grid-row: 3 / 4;
+.switches {
+	grid-area: switches;
+	display: flex;
+	grid-gap: 10px;
 }
 
-.resident {
-	grid-row: 3 / 4;
+.table {
+	grid-area: table;
 }
 
-.medicare {
-	grid-row: 3 / 4;
-}
-
-.calc {
-	grid-column: 1 / 4;
-	grid-row: 4 / 5;
+.income-forecast {
+	grid-area: income-forecast;
 }

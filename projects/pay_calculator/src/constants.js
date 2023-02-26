@@ -135,6 +135,35 @@ export const columns = [
 		title: "Categories ",
 		dataIndex: "categories",
 		key: "categories",
+		render: (categories) => {
+			switch (categories) {
+				case "Medicare Levy":
+					return (
+						<>
+							{categories}
+							<br />
+							<sub>
+								<sup>*</sup>Single, No dependence
+							</sub>
+						</>
+					);
+				case "Medicare Levy Surcharge":
+					return (
+						<>
+							{categories}
+							<br />
+							<sub>
+								<sup>*</sup>Single, No dependence
+							</sub>
+						</>
+					);
+
+				case "Net income":
+					return <b>{categories}</b>;
+				default:
+					return <>{categories}</>;
+			}
+		},
 	},
 	{
 		title: "Weekly",
