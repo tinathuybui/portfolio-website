@@ -21,8 +21,10 @@ function App() {
 	const [isResident, setIsResident] = useState(true);
 	const [medicare, setMedicare] = useState(true);
 	const [frequency, setFrequency] = useState("Anually");
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
+		setLoading(true);
 		let tempSalary = 0;
 
 		if (salary && salary >= 0) tempSalary = salary;
@@ -186,6 +188,7 @@ function App() {
 		newData[7].annually = formatNum(annuallynetincome);
 
 		setData(newData);
+		setTimeout(() => setLoading(false), 100);
 		// eslint-disable-next-line
 	}, [salary, superData, isSuper, isResident, medicare, frequency]);
 
@@ -251,6 +254,7 @@ function App() {
 				pagination={false}
 				className="table"
 				size="middle"
+				loading={loading}
 			/>
 
 			<IncomeForecast class="income-forecast" />
