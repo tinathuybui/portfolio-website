@@ -8,7 +8,7 @@ import {
 } from "./data/medicare";
 import { getTaxBracket } from "./data/tax";
 import { lowIncomeOffsetBracket } from "./data/lowIncomeOffset";
-import { formatNum, getCurrentFinancialYear } from "./data/util";
+import { formatNum, getCurrentFinancialYear, formatter } from "./data/util";
 import IncomeForecast from "./IncomeForecast";
 import "./App.css";
 
@@ -198,6 +198,8 @@ function App() {
 					addonAfter="$"
 					defaultValue={salary}
 					onChange={(value) => setSalary(value)}
+					formatter={(value) => formatter(value)}
+					// parser={(value) => value!.replace(/\$\s?|(,*)/g, '')}
 				/>
 				<Select
 					className="pay-cycle"

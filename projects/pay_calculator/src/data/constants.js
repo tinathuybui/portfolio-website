@@ -1,3 +1,5 @@
+import { formatter } from "./util";
+
 export const WEEKS = {
 	WEEKLY: 52,
 	FORTNIGHTLY: 26,
@@ -125,21 +127,33 @@ export const columns = [
 		title: "Weekly",
 		dataIndex: "weekly",
 		key: "weekly",
+		render: (value) => {
+			return formatter(value);
+		},
 	},
 	{
 		title: "Fortnightly",
 		dataIndex: "fortnightly",
 		key: "fortnightly",
+		render: (value) => {
+			return formatter(value);
+		},
 	},
 	{
 		title: "Monthly",
 		key: "monthly",
 		dataIndex: "monthly",
+		render: (value) => {
+			return formatter(value);
+		},
 	},
 	{
 		title: "Annually",
 		key: "annually",
 		dataIndex: "annually",
+		render: (value) => {
+			return formatter(value);
+		},
 	},
 ];
 

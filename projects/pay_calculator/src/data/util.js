@@ -8,3 +8,6 @@ export const getCurrentFinancialYear = () => {
 	const financialYearEnd = financialYearStart + 1;
 	return `${financialYearStart}-${financialYearEnd}`;
 };
+
+export const formatter = (value) =>
+	`${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
