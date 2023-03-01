@@ -1,17 +1,16 @@
 import { InputNumber, Select, Switch, Table } from "antd";
 import "antd/dist/reset.css";
 import { useEffect, useState } from "react";
-import { intialData, columns, WEEKS } from "./constants";
+import { intialData, columns, WEEKS, FREQUENCY } from "./data/constants";
 import {
-	formatNum,
-	getCurrentFinancialYear,
-	getTaxBracket,
-	medicareSurchargeThresholdBracket,
 	medicareBracket,
-} from "./util";
-import "./App.css";
-
+	medicareSurchargeThresholdBracket,
+} from "./data/medicare";
+import { getTaxBracket } from "./data/tax";
+import { lowIncomeOffsetBracket } from "./data/lowIncomeOffset";
+import { formatNum, getCurrentFinancialYear } from "./data/util";
 import IncomeForecast from "./IncomeForecast";
+import "./App.css";
 
 function App() {
 	const currentFinancialYear = getCurrentFinancialYear();
@@ -21,32 +20,35 @@ function App() {
 	const [isSuper, setIsSuper] = useState(false);
 	const [isResident, setIsResident] = useState(true);
 	const [medicare, setMedicare] = useState(true);
+	const [frequency, setFrequency] = useState("Anually");
 
 	useEffect(() => {
-		console.log(salary);
-
 		let tempSalary = 0;
 
 		if (salary && salary >= 0) tempSalary = salary;
 
 		const newData = [...data];
 
-		let weeklyGross = 0;
-		let fortnightlyGross = 0;
-		let monthlyGross = 0;
-		let annuallyGross = 0;
-
-		if (isSuper) {
-			weeklyGross = tempSalary / (1 + superData / 100) / 52;
-			fortnightlyGross = tempSalary / (1 + superData / 100) / 26;
-			monthlyGross = tempSalary / (1 + superData / 100) / 12;
-			annuallyGross = tempSalary / (1 + superData / 100);
-		} else {
-			weeklyGross = tempSalary / 52;
-			fortnightlyGross = tempSalary / 26;
-			monthlyGross = tempSalary / 12;
-			annuallyGross = tempSalary;
-		}
+		let weeklyGross = FREQUENCY[frequency].WEEKLY(
+			tempSalary,
+			superData,
+			isSuper
+		);
+		let fortnightlyGross = FREQUENCY[frequency].FORTNIGHTLY(
+			tempSalary,
+			superData,
+			isSuper
+		);
+		let monthlyGross = FREQUENCY[frequency].MONTHLY(
+			tempSalary,
+			superData,
+			isSuper
+		);
+		let annuallyGross = FREQUENCY[frequency].ANNUALLY(
+			tempSalary,
+			superData,
+			isSuper
+		);
 
 		const weeklyF = formatNum(weeklyGross);
 		const fortnightlyF = formatNum(fortnightlyGross);
@@ -58,148 +60,95 @@ function App() {
 		newData[0].monthly = monthlyF;
 		newData[0].annually = annuallyF;
 
-		let weeklySuper = 0;
-		let fortnightlySuper = 0;
-		let monthlySuper = 0;
-		let annuallySuper = 0;
+		let weeklySuper = isSuper
+			? tempSalary / WEEKS.ANNUALLY - weeklyGross
+			: (weeklyGross * superData) / 100;
+		let fortnightlySuper = isSuper
+			? tempSalary / WEEKS.FORTNIGHTLY - fortnightlyGross
+			: (fortnightlyGross * superData) / 100;
+		let monthlySuper = isSuper
+			? tempSalary / WEEKS.MONTHLY - monthlyGross
+			: (monthlyGross * superData) / 100;
+		let annuallySuper = isSuper
+			? tempSalary - annuallyGross
+			: (annuallyGross * superData) / 100;
 
-		// prettier-ignore
-		if (isSuper) {
-			weeklySuper = (tempSalary/52) - weeklyGross;
-			fortnightlySuper = (tempSalary/26) - fortnightlyGross;
-			monthlySuper = (tempSalary / 12)-monthlyGross;
-			annuallySuper = tempSalary - annuallyGross;
+		const mBracket = medicareBracket(annuallyGross);
+
+		let weeklyMedicare = medicare
+			? mBracket.calculateM(annuallyGross, WEEKS.WEEKLY)
+			: 0;
+		let fortnightMedicare = medicare
+			? mBracket.calculateM(annuallyGross, WEEKS.FORTNIGHTLY)
+			: 0;
+		let monthlyMedicare = medicare
+			? mBracket.calculateM(annuallyGross, WEEKS.MONTHLY)
+			: 0;
+		let annuallyMedicare = medicare
+			? mBracket.calculateM(annuallyGross, WEEKS.ANNUALLY)
+			: 0;
+
+		const taxBracket = getTaxBracket(currentFinancialYear, weeklyGross);
+
+		const tax = taxBracket.calculateTaxAmount(
+			weeklyGross,
+			annuallyGross,
+			weeklyMedicare,
+			fortnightMedicare,
+			monthlyMedicare
+		);
+
+		let weeklytax = tax.weeklytax;
+		let fortnighttax = tax.fortnighttax;
+		let monthlytax = tax.monthlytax;
+		let annuallytax = tax.annuallytax();
+
+		const mlsBracket = medicareSurchargeThresholdBracket(annuallyGross);
+
+		let weeklyMLS = 0;
+		let fortnightMLS = 0;
+		let monthlyMLS = 0;
+		let annuallyMLS = 0;
+		if (medicare) {
+			weeklyMLS = mlsBracket.calculateMLS(0);
+			fortnightMLS = mlsBracket.calculateMLS(0);
+			monthlyMLS = mlsBracket.calculateMLS(0);
+			annuallyMLS = mlsBracket.calculateMLS(annuallyGross);
 		} else {
-			weeklySuper = (weeklyGross * superData) / 100;
-			fortnightlySuper = (fortnightlyGross * superData) / 100;
-			monthlySuper = (monthlyGross * superData) / 100;
-			annuallySuper = (annuallyGross * superData) / 100;
+			weeklyMLS = 0;
+			fortnightMLS = 0;
+			monthlyMLS = 0;
+			annuallyMLS = 0;
 		}
 
-		const mBracket = medicareBracket(tempSalary);
-
-		let weeklyMedicare = mBracket.calculateM(tempSalary, WEEKS.WEEKLY);
-		let fortnightMedicare = mBracket.calculateM(tempSalary, WEEKS.FORTNIGHTLY);
-		let monthlyMedicare = mBracket.calculateM(tempSalary, WEEKS.MONTHLY);
-		let annuallyMedicare = mBracket.calculateM(tempSalary, WEEKS.ANNUALLY);
-
-		const mlsBracket = medicareSurchargeThresholdBracket(tempSalary);
-
-		let weeklyMLS = mlsBracket.calculateMLS(0);
-		let fortnightMLS = mlsBracket.calculateMLS(0);
-		let monthlyMLS = mlsBracket.calculateMLS(0);
-		let annuallyMLS = mlsBracket.calculateMLS(tempSalary);
-
+		const litoBracket = lowIncomeOffsetBracket(annuallyGross);
 		let weeklyLITO = 0;
 		let fortnightLITO = 0;
 		let monthlyLITO = 0;
-		let annuallyLITO = 0;
-
-		if (annuallyGross <= 37500 && annuallyGross > 0) {
-			weeklyLITO = 0;
-			fortnightLITO = 0;
-			monthlyLITO = 0;
-			annuallyLITO = 700;
-		} else if (37501 < annuallyGross && annuallyGross <= 45000) {
-			weeklyLITO = 0;
-			fortnightLITO = 0;
-			monthlyLITO = 0;
-			annuallyLITO = 700 - 0.05 * (annuallyGross - 37500);
-		} else if (45001 < annuallyGross && annuallyGross <= 66667) {
-			weeklyLITO = 0;
-			fortnightLITO = 0;
-			monthlyLITO = 0;
-			annuallyLITO = 325 - 0.0015 * (annuallyGross - 45000);
-		} else {
-			weeklyLITO = 0;
-			fortnightLITO = 0;
-			monthlyLITO = 0;
-			annuallyLITO = 0;
-		}
-
-		let weeklyLMITO = 0;
-		let fortnightLMITO = 0;
-		let monthlyLMITO = 0;
-		let annuallyLMITO = 0;
-
-		if (annuallyGross <= 37000 && annuallyGross > 0) {
-			weeklyLMITO = 0;
-			fortnightLMITO = 0;
-			monthlyLMITO = 0;
-			annuallyLMITO = 675;
-		} else if (37001 < annuallyGross && annuallyGross <= 48000) {
-			weeklyLMITO = 0;
-			fortnightLMITO = 0;
-			monthlyLMITO = 0;
-			annuallyLMITO = 675 + 0.075 * (annuallyGross - 37000);
-		} else if (48001 < annuallyGross && annuallyGross <= 90000) {
-			weeklyLMITO = 0;
-			fortnightLMITO = 0;
-			monthlyLMITO = 0;
-			annuallyLMITO = 1500;
-		} else if (90001 < annuallyGross && annuallyGross <= 126000) {
-			weeklyLMITO = 0;
-			fortnightLMITO = 0;
-			monthlyLMITO = 0;
-			annuallyLMITO = 1500 - 0.03 * (annuallyGross - 90000);
-		} else {
-			weeklyLMITO = 0;
-			fortnightLMITO = 0;
-			monthlyLMITO = 0;
-			annuallyLMITO = 0;
-		}
+		let annuallyLITO =
+			annuallytax === 0 ? 0 : litoBracket.calculateLITO(annuallyGross);
 
 		let weeklynetincome = 0;
 		let fortnightnetincome = 0;
 		let monthlynetincome = 0;
 		let annuallynetincome = 0;
 
-		const taxBracket = getTaxBracket(currentFinancialYear, annuallyGross);
-
-		console.log(taxBracket);
-
-		let weeklytax = taxBracket.calculateTaxAmount(annuallyGross, WEEKS.WEEKLY);
-		let fortnighttax = taxBracket.calculateTaxAmount(
-			annuallyGross,
-			WEEKS.FORTNIGHTLY
-		);
-		let monthlytax = taxBracket.calculateTaxAmount(
-			annuallyGross,
-			WEEKS.MONTHLY
-		);
-		let annuallytax = taxBracket.calculateTaxAmount(
-			annuallyGross,
-			WEEKS.ANNUALLY
-		);
-
 		weeklynetincome =
-			weeklyGross -
-			weeklytax -
-			weeklyMedicare -
-			weeklyMLS +
-			weeklyLITO +
-			weeklyLMITO;
+			weeklyGross - weeklytax - weeklyMedicare - weeklyMLS + weeklyLITO;
 		fortnightnetincome =
 			fortnightlyGross -
 			fortnighttax -
 			fortnightMedicare -
 			fortnightMLS +
-			fortnightLITO +
-			fortnightLMITO;
+			fortnightLITO;
 		monthlynetincome =
-			monthlyGross -
-			monthlytax -
-			monthlyMedicare -
-			monthlyMLS +
-			monthlyLITO +
-			monthlyLMITO;
+			monthlyGross - monthlytax - monthlyMedicare - monthlyMLS + monthlyLITO;
 		annuallynetincome =
 			annuallyGross -
 			annuallytax -
 			annuallyMedicare -
 			annuallyMLS +
-			annuallyLITO +
-			annuallyLMITO;
+			annuallyLITO;
 
 		newData[1].weekly = formatNum(weeklySuper);
 		newData[1].fortnightly = formatNum(fortnightlySuper);
@@ -226,10 +175,10 @@ function App() {
 		newData[5].monthly = formatNum(monthlyLITO);
 		newData[5].annually = formatNum(annuallyLITO);
 
-		newData[6].weekly = formatNum(weeklyLMITO);
-		newData[6].fortnightly = formatNum(fortnightLMITO);
-		newData[6].monthly = formatNum(monthlyLMITO);
-		newData[6].annually = formatNum(annuallyLMITO);
+		newData[6].weekly = formatNum(0);
+		newData[6].fortnightly = formatNum(0);
+		newData[6].monthly = formatNum(0);
+		newData[6].annually = formatNum(0);
 
 		newData[7].weekly = formatNum(weeklynetincome);
 		newData[7].fortnightly = formatNum(fortnightnetincome);
@@ -238,12 +187,12 @@ function App() {
 
 		setData(newData);
 		// eslint-disable-next-line
-	}, [salary, superData, isSuper, isResident, medicare]);
+	}, [salary, superData, isSuper, isResident, medicare, frequency]);
 
 	return (
 		<div className="App">
-			<h1 class="header">Current financial year: {currentFinancialYear}</h1>
-			<div class="input-container">
+			<h1 className="header">Current financial year: {currentFinancialYear}</h1>
+			<div className="input-container">
 				<InputNumber
 					className="salary"
 					addonAfter="$"
@@ -254,7 +203,8 @@ function App() {
 					className="pay-cycle"
 					defaultValue="Anually"
 					style={{ width: 120 }}
-					// onChange={handleChange}
+					onChange={(value) => setFrequency(value)}
+					value={frequency}
 					options={[
 						{ value: "Anually", label: "Annually" },
 						{ value: "Monthly", label: "Monthly" },
@@ -269,7 +219,7 @@ function App() {
 					onChange={(value) => setSuperData(value)}
 				/>
 			</div>
-			<div class="switches">
+			<div className="switches">
 				<Switch
 					checkedChildren="Super included"
 					unCheckedChildren="Super not included"
