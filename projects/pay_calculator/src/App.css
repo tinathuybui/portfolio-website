@@ -9,9 +9,9 @@
 	grid-template-rows: auto auto auto auto auto;
 	grid-gap: 20px;
 	height: 100vh;
+	padding-top: 50px;
 	padding-left: 100px;
 	padding-right: 100px;
-	padding-top: 50px;
 }
 
 .header {
@@ -50,4 +50,12 @@
 .bold-row {
 	font-weight: bold;
 	background-color: #ecf0f1;
+}
+
+@media screen and (max-width: 1250px) {
+	.App {
+		justify-content: center;
+		padding-left: 0px;
+		padding-right: 0px;
+	}
 }
