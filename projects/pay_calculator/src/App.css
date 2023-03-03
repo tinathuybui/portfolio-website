@@ -21,16 +21,7 @@
 .input-container {
 	grid-area: input-container;
 	display: flex;
-	grid-template-columns: repeat(3, 1fr);
 	grid-gap: 10px;
-}
-
-.input-number {
-	grid-column: 1/2;
-}
-
-.select {
-	grid-column: 2/3;
 }
 
 .switches {
@@ -52,10 +43,16 @@
 	background-color: #ecf0f1;
 }
 
-@media screen and (max-width: 1250px) {
+@media screen and (max-width: 800px) {
 	.App {
 		justify-content: center;
-		padding-left: 10px;
-		padding-right: 10px;
+		padding-left: 20px;
+		padding-right: 20px;
+
+		overflow: hidden;
+	}
+
+	.switches {
+		justify-content: space-between;
 	}
 }
