@@ -9,9 +9,9 @@
 	grid-template-rows: auto auto auto auto auto;
 	grid-gap: 20px;
 	height: 100vh;
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-top: 10px;
+	padding-left: 100px;
+	padding-right: 100px;
+	padding-top: 50px;
 }
 
 .header {
@@ -45,4 +45,9 @@
 
 .income-forecast {
 	grid-area: income-forecast;
+}
+
+.bold-row {
+	font-weight: bold;
+	background-color: #ecf0f1;
 }

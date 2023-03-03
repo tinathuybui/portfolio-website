@@ -1,0 +1,20 @@
+.IncomeForecast {
+	display: grid;
+	grid-template-areas:
+		"input"
+		"chart";
+	grid-template-rows: auto auto;
+	grid-gap: 20px;
+	/* height: 100vh; */
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 10px;
+}
+
+.percentage {
+	grid-area: input;
+	width: 300px;
+}
+.chart {
+	grid-area: chart;
+}

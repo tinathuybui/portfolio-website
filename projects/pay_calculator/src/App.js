@@ -1,6 +1,6 @@
-import { InputNumber, Select, Switch, Table } from "antd";
+import { InputNumber, Select, Switch, Table, Divider } from "antd";
 import "antd/dist/reset.css";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { intialData, columns, WEEKS, FREQUENCY } from "./data/constants";
 import {
 	medicareBracket,
@@ -14,7 +14,7 @@ import "./App.css";
 
 function App() {
 	const currentFinancialYear = getCurrentFinancialYear();
-	const [salary, setSalary] = useState(0);
+	const [salary, setSalary] = useState();
 	const [data, setData] = useState(intialData);
 	const [superData, setSuperData] = useState(10.5);
 	const [isSuper, setIsSuper] = useState(false);
@@ -22,6 +22,8 @@ function App() {
 	const [medicare, setMedicare] = useState(true);
 	const [frequency, setFrequency] = useState("Anually");
 	const [loading, setLoading] = useState(true);
+
+	const value = useRef(0);
 
 	useEffect(() => {
 		setLoading(true);
@@ -52,6 +54,8 @@ function App() {
 			isSuper
 		);
 
+		value.current = annuallyGross;
+
 		const weeklyF = formatNum(weeklyGross);
 		const fortnightlyF = formatNum(fortnightlyGross);
 		const monthlyF = formatNum(monthlyGross);
@@ -63,16 +67,16 @@ function App() {
 		newData[0].annually = annuallyF;
 
 		let weeklySuper = isSuper
-			? tempSalary / WEEKS.ANNUALLY - weeklyGross
+			? ((annuallyGross / 52) * superData) / 100
 			: (weeklyGross * superData) / 100;
 		let fortnightlySuper = isSuper
-			? tempSalary / WEEKS.FORTNIGHTLY - fortnightlyGross
+			? ((annuallyGross / 26) * superData) / 100
 			: (fortnightlyGross * superData) / 100;
 		let monthlySuper = isSuper
-			? tempSalary / WEEKS.MONTHLY - monthlyGross
+			? ((annuallyGross / 12) * superData) / 100
 			: (monthlyGross * superData) / 100;
 		let annuallySuper = isSuper
-			? tempSalary - annuallyGross
+			? (annuallyGross * superData) / 100
 			: (annuallyGross * superData) / 100;
 
 		const mBracket = medicareBracket(annuallyGross);
@@ -192,6 +196,10 @@ function App() {
 		// eslint-disable-next-line
 	}, [salary, superData, isSuper, isResident, medicare, frequency]);
 
+	const rowClassName = (record, index) => {
+		return index === data.length - 1 ? "bold-row" : "";
+	};
+
 	return (
 		<div className="App">
 			<h1 className="header">Current financial year: {currentFinancialYear}</h1>
@@ -202,7 +210,7 @@ function App() {
 					defaultValue={salary}
 					onChange={(value) => setSalary(value)}
 					formatter={(value) => formatter(value)}
-					// parser={(value) => value!.replace(/\$\s?|(,*)/g, '')}
+					placeholder="Salary before TAX"
 				/>
 				<Select
 					className="pay-cycle"
@@ -255,9 +263,10 @@ function App() {
 				className="table"
 				size="middle"
 				loading={loading}
+				rowClassName={rowClassName}
 			/>
-
-			<IncomeForecast class="income-forecast" />
+			<Divider>Salary Projection</Divider>
+			<IncomeForecast class="income-forecast" salary={value.current} />
 		</div>
 	);
 }

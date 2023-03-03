@@ -11,3 +11,14 @@ export const getCurrentFinancialYear = () => {
 
 export const formatter = (value) =>
 	`${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+export const getYearArray = (numYears = 5) => {
+	const nextYear = new Date().getFullYear() + 1;
+	const yearArray = [];
+
+	for (let i = 0; i < numYears; i++) {
+		yearArray.push(nextYear + i);
+	}
+
+	return yearArray;
+};

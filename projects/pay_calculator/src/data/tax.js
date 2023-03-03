@@ -264,7 +264,9 @@ export const taxTable = {
 			) {
 				return {
 					weeklytax:
-						Math.round((weeklyGross + 0.99) * this.a - this.b) - weeklyMedicare,
+						Math.round(annuallyGross / 52 + 0.99) * this.a -
+						this.b -
+						weeklyMedicare,
 					fortnighttax:
 						Math.round((weeklyGross + 0.99) * this.a - this.b) * 2 -
 						fortnightMedicare,

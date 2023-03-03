@@ -90,6 +90,7 @@ export const FREQUENCY = {
 
 export const columns = [
 	{
+		// width: 500,
 		title: "Categories ",
 		dataIndex: "categories",
 		key: "categories",
