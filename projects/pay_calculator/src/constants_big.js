@@ -52,7 +52,6 @@ export const lowIncomeOffsetTable = {
 		grossSalaryMax: 45000,
 		rate: 1 / 10,
 		calculateLIO: function (salary, weeks) {
-			console.log(salary, weeks, this.grossSalaryMin, this.rate);
 			return ((salary - this.grossSalaryMin) * this.rate) / weeks;
 		},
 	},

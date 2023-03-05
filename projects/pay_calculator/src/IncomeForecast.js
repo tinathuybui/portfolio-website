@@ -20,8 +20,6 @@ const IncomeForecast = ({ salary }) => {
 		});
 	}, [salary, years, anuallPercentage]);
 
-	console.log(data);
-
 	const config = useMemo(() => {
 		return {
 			data,

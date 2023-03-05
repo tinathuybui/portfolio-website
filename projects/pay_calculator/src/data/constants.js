@@ -25,10 +25,6 @@ export const FREQUENCY = {
 				: tempSalary / 12;
 		},
 		ANNUALLY: function (tempSalary, superData, isSuper) {
-			console.log("isSuper", isSuper);
-			console.log("tempSalary", tempSalary);
-			console.log("superData", superData);
-
 			let aG = isSuper ? tempSalary / (1 + superData / 100) : tempSalary;
 			let annuallySuper = isSuper
 				? (aG * superData) / 100
