@@ -137,7 +137,7 @@ export const columns = [
 							{categories}
 							<br />
 							<sub>
-								<sup>*</sup>Single, No dependence
+								<sup>*</sup>Single, No no dependants
 							</sub>
 						</>
 					);
@@ -147,7 +147,7 @@ export const columns = [
 							{categories}
 							<br />
 							<sub>
-								<sup>*</sup>Single, No dependence
+								<sup>*</sup>Single, No no dependants
 							</sub>
 						</>
 					);
@@ -209,7 +209,7 @@ export const intialData = [
 	},
 	{
 		key: "2",
-		categories: "Superanuation",
+		categories: "Superannuation",
 		weekly: 0,
 		fortnightly: 0,
 		monthly: 0,
