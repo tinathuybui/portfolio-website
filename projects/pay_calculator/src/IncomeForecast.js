@@ -33,10 +33,10 @@ const IncomeForecast = ({ salary }) => {
 			},
 			meta: {
 				type: {
-					alias: "类别",
+					alias: "year",
 				},
 				salary: {
-					alias: "销售额",
+					alias: "Salary",
 				},
 			},
 			minColumnWidth: 20,
