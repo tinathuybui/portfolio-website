@@ -48,11 +48,9 @@ function App() {
 			superData,
 			isSuper
 		);
-		let annuallyGross = FREQUENCY[frequency].ANNUALLY(
-			tempSalary,
-			superData,
-			isSuper
-		);
+
+		const aG = FREQUENCY[frequency].ANNUALLY(tempSalary, superData, isSuper);
+		let annuallyGross = aG.newGross;
 
 		value.current = annuallyGross;
 
@@ -67,17 +65,17 @@ function App() {
 		newData[0].annually = annuallyF;
 
 		let weeklySuper = isSuper
-			? ((annuallyGross / 52) * superData) / 100
+			? ((aG.preGross / 52) * superData) / 100
 			: (weeklyGross * superData) / 100;
 		let fortnightlySuper = isSuper
-			? ((annuallyGross / 26) * superData) / 100
+			? ((aG.preGross / 26) * superData) / 100
 			: (fortnightlyGross * superData) / 100;
 		let monthlySuper = isSuper
-			? ((annuallyGross / 12) * superData) / 100
+			? ((aG.preGross / 12) * superData) / 100
 			: (monthlyGross * superData) / 100;
 		let annuallySuper = isSuper
-			? (annuallyGross * superData) / 100
-			: (annuallyGross * superData) / 100;
+			? (aG.preGross * superData) / 100
+			: (aG.preGross * superData) / 100;
 
 		const mBracket = medicareBracket(annuallyGross);
 
@@ -134,6 +132,13 @@ function App() {
 		let annuallyLITO =
 			annuallytax === 0 ? 0 : litoBracket.calculateLITO(annuallyGross);
 
+		let div293 = 0;
+		if (annuallyGross + annuallySuper > 250000 && annuallySuper < 27500) {
+			div293 = (annuallyGross + annuallySuper - 250000) * 0.15;
+		} else if (annuallySuper > 27500) {
+			div293 = 4125;
+		}
+
 		let weeklynetincome = 0;
 		let fortnightnetincome = 0;
 		let monthlynetincome = 0;
@@ -152,6 +157,7 @@ function App() {
 		annuallynetincome =
 			annuallyGross -
 			annuallytax -
+			div293 -
 			annuallyMedicare -
 			annuallyMLS +
 			annuallyLITO;
@@ -166,30 +172,35 @@ function App() {
 		newData[2].monthly = formatNum(monthlytax);
 		newData[2].annually = formatNum(annuallytax);
 
-		newData[3].weekly = formatNum(weeklyMedicare);
-		newData[3].fortnightly = formatNum(fortnightMedicare);
-		newData[3].monthly = formatNum(monthlyMedicare);
-		newData[3].annually = formatNum(annuallyMedicare);
+		newData[3].weekly = formatNum(0);
+		newData[3].fortnightly = formatNum(0);
+		newData[3].monthly = formatNum(0);
+		newData[3].annually = formatNum(div293);
 
-		newData[4].weekly = formatNum(weeklyMLS);
-		newData[4].fortnightly = formatNum(fortnightMLS);
-		newData[4].monthly = formatNum(monthlyMLS);
-		newData[4].annually = formatNum(annuallyMLS);
+		newData[4].weekly = formatNum(weeklyMedicare);
+		newData[4].fortnightly = formatNum(fortnightMedicare);
+		newData[4].monthly = formatNum(monthlyMedicare);
+		newData[4].annually = formatNum(annuallyMedicare);
 
-		newData[5].weekly = formatNum(weeklyLITO);
-		newData[5].fortnightly = formatNum(fortnightLITO);
-		newData[5].monthly = formatNum(monthlyLITO);
-		newData[5].annually = formatNum(annuallyLITO);
+		newData[5].weekly = formatNum(weeklyMLS);
+		newData[5].fortnightly = formatNum(fortnightMLS);
+		newData[5].monthly = formatNum(monthlyMLS);
+		newData[5].annually = formatNum(annuallyMLS);
 
-		newData[6].weekly = formatNum(0);
-		newData[6].fortnightly = formatNum(0);
-		newData[6].monthly = formatNum(0);
-		newData[6].annually = formatNum(0);
+		newData[6].weekly = formatNum(weeklyLITO);
+		newData[6].fortnightly = formatNum(fortnightLITO);
+		newData[6].monthly = formatNum(monthlyLITO);
+		newData[6].annually = formatNum(annuallyLITO);
 
-		newData[7].weekly = formatNum(weeklynetincome);
-		newData[7].fortnightly = formatNum(fortnightnetincome);
-		newData[7].monthly = formatNum(monthlynetincome);
-		newData[7].annually = formatNum(annuallynetincome);
+		newData[7].weekly = formatNum(0);
+		newData[7].fortnightly = formatNum(0);
+		newData[7].monthly = formatNum(0);
+		newData[7].annually = formatNum(0);
+
+		newData[8].weekly = formatNum(weeklynetincome);
+		newData[8].fortnightly = formatNum(fortnightnetincome);
+		newData[8].monthly = formatNum(monthlynetincome);
+		newData[8].annually = formatNum(annuallynetincome);
 
 		setData(newData);
 		setTimeout(() => setLoading(false), 100);
@@ -197,7 +208,10 @@ function App() {
 	}, [salary, superData, isSuper, isResident, medicare, frequency]);
 
 	const rowClassName = (record, index) => {
-		return index === data.length - 1 ? "bold-row" : "";
+		if (index === data.length - 1) return "bold-row";
+		if (index === 3 && record.annually === "0.00") {
+			return "hide-row";
+		}
 	};
 
 	return (

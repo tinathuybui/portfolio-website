@@ -43,6 +43,10 @@
 	background-color: #ecf0f1;
 }
 
+.hide-row {
+	display: none;
+}
+
 @media screen and (max-width: 800px) {
 	.App {
 		justify-content: center;

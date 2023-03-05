@@ -25,7 +25,20 @@ export const FREQUENCY = {
 				: tempSalary / 12;
 		},
 		ANNUALLY: function (tempSalary, superData, isSuper) {
-			return isSuper ? tempSalary / (1 + superData / 100) : tempSalary;
+			console.log("isSuper", isSuper);
+			console.log("tempSalary", tempSalary);
+			console.log("superData", superData);
+
+			let aG = isSuper ? tempSalary / (1 + superData / 100) : tempSalary;
+			let annuallySuper = isSuper
+				? (aG * superData) / 100
+				: (aG * superData) / 100;
+			const annuallySuperConcession =
+				annuallySuper > 27500 ? annuallySuper - 27500 : 0;
+			return {
+				preGross: aG,
+				newGross: aG + annuallySuperConcession,
+			};
 		},
 	},
 	Monthly: {
@@ -43,9 +56,18 @@ export const FREQUENCY = {
 			return isSuper ? tempSalary / (1 + superData / 100) : tempSalary;
 		},
 		ANNUALLY: function (tempSalary, superData, isSuper) {
-			return isSuper
+			let aG = isSuper
 				? (tempSalary / (1 + superData / 100)) * 12
 				: tempSalary * 12;
+			let annuallySuper = isSuper
+				? (aG * superData) / 100
+				: (aG * superData) / 100;
+			const annuallySuperConcession =
+				annuallySuper > 27500 ? annuallySuper - 27500 : 0;
+			return {
+				preGross: aG,
+				newGross: aG + annuallySuperConcession,
+			};
 		},
 	},
 	Fortnightly: {
@@ -61,9 +83,18 @@ export const FREQUENCY = {
 				: (tempSalary * 26) / 12;
 		},
 		ANNUALLY: function (tempSalary, superData, isSuper) {
-			return isSuper
+			let aG = isSuper
 				? (tempSalary / (1 + superData / 100)) * 26
 				: tempSalary * 26;
+			let annuallySuper = isSuper
+				? (aG * superData) / 100
+				: (aG * superData) / 100;
+			const annuallySuperConcession =
+				annuallySuper > 27500 ? annuallySuper - 27500 : 0;
+			return {
+				preGross: aG,
+				newGross: aG + annuallySuperConcession,
+			};
 		},
 	},
 	Weekly: {
@@ -81,9 +112,18 @@ export const FREQUENCY = {
 				: (tempSalary * 52) / 12;
 		},
 		ANNUALLY: function (tempSalary, superData, isSuper) {
-			return isSuper
+			let aG = isSuper
 				? (tempSalary / (1 + superData / 100)) * 52
 				: tempSalary * 52;
+			let annuallySuper = isSuper
+				? (aG * superData) / 100
+				: (aG * superData) / 100;
+			const annuallySuperConcession =
+				annuallySuper > 27500 ? annuallySuper - 27500 : 0;
+			return {
+				preGross: aG,
+				newGross: aG + annuallySuperConcession,
+			};
 		},
 	},
 };
@@ -184,7 +224,7 @@ export const intialData = [
 	},
 	{
 		key: "4",
-		categories: "Medicare Levy",
+		categories: "Division 293",
 		weekly: 0,
 		fortnightly: 0,
 		monthly: 0,
@@ -192,7 +232,7 @@ export const intialData = [
 	},
 	{
 		key: "5",
-		categories: "Medicare Levy Surcharge",
+		categories: "Medicare Levy",
 		weekly: 0,
 		fortnightly: 0,
 		monthly: 0,
@@ -200,7 +240,7 @@ export const intialData = [
 	},
 	{
 		key: "6",
-		categories: "Low Income Tax Offset",
+		categories: "Medicare Levy Surcharge",
 		weekly: 0,
 		fortnightly: 0,
 		monthly: 0,
@@ -208,7 +248,7 @@ export const intialData = [
 	},
 	{
 		key: "7",
-		categories: "Low and Middle Income Tax Offset",
+		categories: "Low Income Tax Offset",
 		weekly: 0,
 		fortnightly: 0,
 		monthly: 0,
@@ -216,6 +256,14 @@ export const intialData = [
 	},
 	{
 		key: "8",
+		categories: "Low and Middle Income Tax Offset",
+		weekly: 0,
+		fortnightly: 0,
+		monthly: 0,
+		annually: 0,
+	},
+	{
+		key: "9",
 		categories: "Net income",
 		weekly: 0,
 		fortnightly: 0,
