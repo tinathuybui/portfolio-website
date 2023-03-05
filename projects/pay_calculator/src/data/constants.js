@@ -137,7 +137,7 @@ export const columns = [
 							{categories}
 							<br />
 							<sub>
-								<sup>*</sup>Single, No no dependants
+								<sup>*</sup>Single, No dependants
 							</sub>
 						</>
 					);
@@ -147,7 +147,7 @@ export const columns = [
 							{categories}
 							<br />
 							<sub>
-								<sup>*</sup>Single, No no dependants
+								<sup>*</sup>Single, No dependants
 							</sub>
 						</>
 					);
