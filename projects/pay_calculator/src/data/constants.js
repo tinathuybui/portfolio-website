@@ -158,6 +158,7 @@ export const columns = [
 					return <>{categories}</>;
 			}
 		},
+		width: "10%",
 	},
 	{
 		title: "Weekly",
@@ -166,6 +167,7 @@ export const columns = [
 		render: (value) => {
 			return formatter(value);
 		},
+		width: "10%",
 	},
 	{
 		title: "Fortnightly",
@@ -174,6 +176,7 @@ export const columns = [
 		render: (value) => {
 			return formatter(value);
 		},
+		width: "10%",
 	},
 	{
 		title: "Monthly",
@@ -182,6 +185,7 @@ export const columns = [
 		render: (value) => {
 			return formatter(value);
 		},
+		width: "10%",
 	},
 	{
 		title: "Annually",
@@ -190,6 +194,7 @@ export const columns = [
 		render: (value) => {
 			return formatter(value);
 		},
+		width: "10%",
 	},
 ];
 
