@@ -287,7 +287,6 @@ const Salary = () => {
 			/>
 			<Divider>Salary Projection</Divider>
 			<IncomeForecast class="income-forecast" salary={value.current} />
-			<span>This website is for informational purposes only.</span>
 		</div>
 	);
 };
