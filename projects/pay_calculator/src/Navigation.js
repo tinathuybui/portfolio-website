@@ -7,7 +7,7 @@ const Navigation = () => {
 		<Header>
 			<Menu theme="light" mode="horizontal" defaultSelectedKeys={["1"]}>
 				<Menu.Item key="1">
-					<Link to="/salary">Salary</Link>
+					<Link to="/">Salary</Link>
 				</Menu.Item>
 				<Menu.Item key="2">
 					<Link to="/super">Super</Link>

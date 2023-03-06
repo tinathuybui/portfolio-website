@@ -15,8 +15,8 @@ function App() {
 		<>
 			<Navigation />
 			<Routes>
-				<Route path="/" element={<Navigate to="/salary" />} />
-				<Route path="/salary" element={<Salary />} />
+				<Route path="/" element={<Navigate to="/" />} />
+				<Route path="/" element={<Salary />} />
 				<Route path="/super" element={<SuperForcast />} />
 			</Routes>
 			<Collapse>
