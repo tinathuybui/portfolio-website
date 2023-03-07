@@ -13,6 +13,10 @@
 	padding-right: 10px;
 }
 
+.main-header {
+	display: flex;
+}
+
 .header {
 	grid-area: header;
 }

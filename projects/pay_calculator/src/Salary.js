@@ -4,6 +4,7 @@ import {
 	Switch as AntDSwitch,
 	Table,
 	Divider,
+	Button,
 } from "antd";
 import "antd/dist/reset.css";
 import { useEffect, useRef, useState } from "react";
@@ -17,6 +18,8 @@ import { lowIncomeOffsetBracket } from "./data/lowIncomeOffset";
 import { formatNum, getCurrentFinancialYear, formatter } from "./data/util";
 import IncomeForecast from "./IncomeForecast";
 import "./App.css";
+import { ExportOutlined } from "@ant-design/icons";
+import * as XLSX from "xlsx";
 
 const Salary = () => {
 	const currentFinancialYear = getCurrentFinancialYear();
@@ -30,6 +33,13 @@ const Salary = () => {
 	const [loading, setLoading] = useState(true);
 
 	const value = useRef(0);
+
+	const handleExportToExcel = () => {
+		const worksheet = XLSX.utils.json_to_sheet(data);
+		const workbook = XLSX.utils.book_new();
+		XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+		XLSX.writeFile(workbook, `salary.xlsx`);
+	};
 
 	useEffect(() => {
 		setLoading(true);
@@ -285,6 +295,13 @@ const Salary = () => {
 				loading={loading}
 				rowClassName={rowClassName}
 			/>
+			<Button
+				onClick={() => handleExportToExcel()}
+				icon={<ExportOutlined />}
+				type="primary"
+			>
+				Export
+			</Button>
 			<Divider>Salary Projection</Divider>
 			<IncomeForecast class="income-forecast" salary={value.current} />
 		</div>
