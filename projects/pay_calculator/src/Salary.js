@@ -246,7 +246,10 @@ const Salary = () => {
 		if (index === 3 && record.annually === "0.00") {
 			return "hide-row";
 		}
-		if ((index === 4 || index === 5 || index === 6) && !isResident) {
+		if (
+			(index === 4 || index === 5 || (index === 6) | (index === 7)) &&
+			!isResident
+		) {
 			return "hide-row";
 		}
 	};
@@ -298,14 +301,25 @@ const Salary = () => {
 					onChange={(value) => setIsResident(value)}
 					className="resident"
 				/>
-				<AntDSwitch
-					checkedChildren="Including Medicare"
-					unCheckedChildren="Medicare levy exemption"
-					defaultChecked={medicare}
-					onChange={(value) => setMedicare(value)}
-					className="medicare"
-					disabled={!isResident}
-				/>
+				{!isResident && (
+					<AntDSwitch
+						checkedChildren="Including Medicare"
+						unCheckedChildren="Medicare levy exemption"
+						defaultChecked={!medicare}
+						className="medicare"
+						disabled
+					/>
+				)}
+				{isResident && (
+					<AntDSwitch
+						checkedChildren="Including Medicare"
+						unCheckedChildren="Medicare levy exemption"
+						defaultChecked={medicare}
+						onChange={(value) => setMedicare(value)}
+						className="medicare"
+						disabled={!isResident}
+					/>
+				)}
 			</div>
 
 			<Table
