@@ -13,7 +13,7 @@ import {
 	medicareBracket,
 	medicareSurchargeThresholdBracket,
 } from "./data/medicare";
-import { getTaxBracket } from "./data/tax";
+import { getTaxBracket, getTaxBracketNR } from "./data/tax";
 import { lowIncomeOffsetBracket } from "./data/lowIncomeOffset";
 import { formatNum, getCurrentFinancialYear, formatter } from "./data/util";
 import IncomeForecast from "./IncomeForecast";
@@ -43,6 +43,7 @@ const Salary = () => {
 
 	useEffect(() => {
 		setLoading(true);
+
 		let tempSalary = 0;
 
 		if (salary && salary >= 0) tempSalary = salary;
@@ -93,30 +94,47 @@ const Salary = () => {
 			? (aG.preGross * superData) / 100
 			: (aG.preGross * superData) / 100;
 
-		const mBracket = medicareBracket(annuallyGross);
+		let weeklyMedicare = 0;
+		let fortnightMedicare = 0;
+		let monthlyMedicare = 0;
+		let annuallyMedicare = 0;
 
-		let weeklyMedicare = medicare
-			? mBracket.calculateM(annuallyGross, WEEKS.WEEKLY)
-			: 0;
-		let fortnightMedicare = medicare
-			? mBracket.calculateM(annuallyGross, WEEKS.FORTNIGHTLY)
-			: 0;
-		let monthlyMedicare = medicare
-			? mBracket.calculateM(annuallyGross, WEEKS.MONTHLY)
-			: 0;
-		let annuallyMedicare = medicare
-			? mBracket.calculateM(annuallyGross, WEEKS.ANNUALLY)
-			: 0;
+		if (medicare && isResident) {
+			const mBracket = medicareBracket(annuallyGross);
 
-		const taxBracket = getTaxBracket(currentFinancialYear, weeklyGross);
+			weeklyMedicare = medicare
+				? mBracket.calculateM(annuallyGross, WEEKS.WEEKLY)
+				: 0;
+			fortnightMedicare = medicare
+				? mBracket.calculateM(annuallyGross, WEEKS.FORTNIGHTLY)
+				: 0;
+			monthlyMedicare = medicare
+				? mBracket.calculateM(annuallyGross, WEEKS.MONTHLY)
+				: 0;
+			annuallyMedicare = medicare
+				? mBracket.calculateM(annuallyGross, WEEKS.ANNUALLY)
+				: 0;
+		}
 
-		const tax = taxBracket.calculateTaxAmount(
-			weeklyGross,
-			annuallyGross,
-			weeklyMedicare,
-			fortnightMedicare,
-			monthlyMedicare
-		);
+		const taxBracket = isResident
+			? getTaxBracket(currentFinancialYear, weeklyGross)
+			: getTaxBracketNR(currentFinancialYear, weeklyGross);
+
+		const tax = isResident
+			? taxBracket.calculateTaxAmount(
+					weeklyGross,
+					annuallyGross,
+					weeklyMedicare,
+					fortnightMedicare,
+					monthlyMedicare
+			  )
+			: taxBracket.calculateTaxAmount(
+					weeklyGross,
+					annuallyGross,
+					weeklyMedicare,
+					fortnightMedicare,
+					monthlyMedicare
+			  );
 
 		let weeklytax = tax.weeklytax;
 		let fortnighttax = tax.fortnighttax;
@@ -129,24 +147,24 @@ const Salary = () => {
 		let fortnightMLS = 0;
 		let monthlyMLS = 0;
 		let annuallyMLS = 0;
-		if (medicare) {
+
+		if (medicare && isResident) {
 			weeklyMLS = mlsBracket.calculateMLS(0);
 			fortnightMLS = mlsBracket.calculateMLS(0);
 			monthlyMLS = mlsBracket.calculateMLS(0);
 			annuallyMLS = mlsBracket.calculateMLS(annuallyGross);
-		} else {
-			weeklyMLS = 0;
-			fortnightMLS = 0;
-			monthlyMLS = 0;
-			annuallyMLS = 0;
 		}
 
-		const litoBracket = lowIncomeOffsetBracket(annuallyGross);
 		let weeklyLITO = 0;
 		let fortnightLITO = 0;
 		let monthlyLITO = 0;
-		let annuallyLITO =
-			annuallytax === 0 ? 0 : litoBracket.calculateLITO(annuallyGross);
+		let annuallyLITO = 0;
+
+		if (isResident) {
+			const litoBracket = lowIncomeOffsetBracket(annuallyGross);
+			annuallyLITO =
+				annuallytax === 0 ? 0 : litoBracket.calculateLITO(annuallyGross);
+		}
 
 		let div293 = 0;
 		if (annuallyGross + annuallySuper > 250000 && annuallySuper < 27500) {
@@ -228,6 +246,9 @@ const Salary = () => {
 		if (index === 3 && record.annually === "0.00") {
 			return "hide-row";
 		}
+		if ((index === 4 || index === 5 || index === 6) && !isResident) {
+			return "hide-row";
+		}
 	};
 
 	return (
@@ -283,6 +304,7 @@ const Salary = () => {
 					defaultChecked={medicare}
 					onChange={(value) => setMedicare(value)}
 					className="medicare"
+					disabled={!isResident}
 				/>
 			</div>
 
