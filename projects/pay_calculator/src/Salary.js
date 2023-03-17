@@ -298,28 +298,20 @@ const Salary = () => {
 					checkedChildren="Resident"
 					unCheckedChildren="Non resident"
 					defaultChecked={isResident}
-					onChange={(value) => setIsResident(value)}
+					onChange={(value) => {
+						setIsResident(value);
+						setMedicare(value ? true : false);
+					}}
 					className="resident"
 				/>
-				{!isResident && (
-					<AntDSwitch
-						checkedChildren="Including Medicare"
-						unCheckedChildren="Medicare levy exemption"
-						defaultChecked={!medicare}
-						className="medicare"
-						disabled
-					/>
-				)}
-				{isResident && (
-					<AntDSwitch
-						checkedChildren="Including Medicare"
-						unCheckedChildren="Medicare levy exemption"
-						defaultChecked={medicare}
-						onChange={(value) => setMedicare(value)}
-						className="medicare"
-						disabled={!isResident}
-					/>
-				)}
+				<AntDSwitch
+					checkedChildren="Including Medicare"
+					unCheckedChildren="Medicare levy exemption"
+					checked={medicare}
+					onChange={(value) => setMedicare(value)}
+					className="medicare"
+					disabled={!isResident}
+				/>
 			</div>
 
 			<Table
