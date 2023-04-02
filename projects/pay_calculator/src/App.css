@@ -27,10 +27,15 @@
 	grid-gap: 10px;
 }
 
+.export {
+	margin-left: auto;
+}
+
 .switches {
 	grid-area: switches;
 	display: flex;
 	grid-gap: 10px;
+	align-items: center;
 }
 
 .table {

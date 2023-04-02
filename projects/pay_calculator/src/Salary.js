@@ -312,6 +312,14 @@ const Salary = () => {
 					className="medicare"
 					disabled={!isResident}
 				/>
+				<Button
+					className="export"
+					onClick={() => handleExportToExcel()}
+					icon={<ExportOutlined />}
+					type="primary"
+				>
+					Export
+				</Button>
 			</div>
 
 			<Table
@@ -323,13 +331,7 @@ const Salary = () => {
 				loading={loading}
 				rowClassName={rowClassName}
 			/>
-			<Button
-				onClick={() => handleExportToExcel()}
-				icon={<ExportOutlined />}
-				type="primary"
-			>
-				Export
-			</Button>
+
 			<Divider>Salary Projection</Divider>
 			<IncomeForecast class="income-forecast" salary={value.current} />
 		</div>
