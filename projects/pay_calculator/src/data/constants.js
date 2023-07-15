@@ -201,7 +201,7 @@ export const columns = [
 export const intialData = [
 	{
 		key: "1",
-		categories: "Gross Income",
+		categories: "Taxable Income",
 		weekly: 0,
 		fortnightly: 0,
 		monthly: 0,
@@ -265,7 +265,7 @@ export const intialData = [
 	},
 	{
 		key: "9",
-		categories: "Net income",
+		categories: "Take Home Pay",
 		weekly: 0,
 		fortnightly: 0,
 		monthly: 0,
