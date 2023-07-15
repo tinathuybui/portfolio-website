@@ -25,7 +25,7 @@ const Salary = () => {
 	const currentFinancialYear = getCurrentFinancialYear();
 	const [salary, setSalary] = useState();
 	const [data, setData] = useState(intialData);
-	const [superData, setSuperData] = useState(10.5);
+	const [superData, setSuperData] = useState(11);
 	const [isSuper, setIsSuper] = useState(false);
 	const [isResident, setIsResident] = useState(true);
 	const [medicare, setMedicare] = useState(true);
@@ -252,6 +252,7 @@ const Salary = () => {
 		) {
 			return "hide-row";
 		}
+		if (index === 7) return "hide-row";
 	};
 
 	return (
