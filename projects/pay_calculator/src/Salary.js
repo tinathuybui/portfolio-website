@@ -189,7 +189,7 @@ const Salary = () => {
 		monthlynetincome =
 			monthlyGross - monthlytax - monthlyMedicare - monthlyMLS + monthlyLITO;
 		annuallynetincome =
-			annuallyGross -
+			tempSalary -
 			annuallytax -
 			div293 -
 			annuallyMedicare -
