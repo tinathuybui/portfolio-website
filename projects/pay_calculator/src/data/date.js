@@ -1,0 +1,8 @@
+const WEEKS = {
+	WEEKLY: 52,
+	FORTNIGHTLY: 26,
+	MONTHLY: 12,
+	ANNUALLY: 1,
+};
+
+export { WEEKS };

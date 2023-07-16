@@ -1,13 +1,6 @@
 import { formatter } from "./util";
 
-export const WEEKS = {
-	WEEKLY: 52,
-	FORTNIGHTLY: 26,
-	MONTHLY: 12,
-	ANNUALLY: 1,
-};
-
-export const FREQUENCY = {
+const FREQUENCY = {
 	Anually: {
 		WEEKLY: function (tempSalary, superData, isSuper) {
 			return isSuper
@@ -26,9 +19,7 @@ export const FREQUENCY = {
 		},
 		ANNUALLY: function (tempSalary, superData, isSuper) {
 			let aG = isSuper ? tempSalary / (1 + superData / 100) : tempSalary;
-			let annuallySuper = isSuper
-				? (aG * superData) / 100
-				: (aG * superData) / 100;
+			let annuallySuper = (aG * superData) / 100;
 			const annuallySuperConcession =
 				annuallySuper > 27500 ? annuallySuper - 27500 : 0;
 			return {
@@ -55,9 +46,7 @@ export const FREQUENCY = {
 			let aG = isSuper
 				? (tempSalary / (1 + superData / 100)) * 12
 				: tempSalary * 12;
-			let annuallySuper = isSuper
-				? (aG * superData) / 100
-				: (aG * superData) / 100;
+			let annuallySuper = (aG * superData) / 100;
 			const annuallySuperConcession =
 				annuallySuper > 27500 ? annuallySuper - 27500 : 0;
 			return {
@@ -82,9 +71,7 @@ export const FREQUENCY = {
 			let aG = isSuper
 				? (tempSalary / (1 + superData / 100)) * 26
 				: tempSalary * 26;
-			let annuallySuper = isSuper
-				? (aG * superData) / 100
-				: (aG * superData) / 100;
+			let annuallySuper = (aG * superData) / 100;
 			const annuallySuperConcession =
 				annuallySuper > 27500 ? annuallySuper - 27500 : 0;
 			return {
@@ -111,9 +98,7 @@ export const FREQUENCY = {
 			let aG = isSuper
 				? (tempSalary / (1 + superData / 100)) * 52
 				: tempSalary * 52;
-			let annuallySuper = isSuper
-				? (aG * superData) / 100
-				: (aG * superData) / 100;
+			let annuallySuper = (aG * superData) / 100;
 			const annuallySuperConcession =
 				annuallySuper > 27500 ? annuallySuper - 27500 : 0;
 			return {
@@ -124,7 +109,7 @@ export const FREQUENCY = {
 	},
 };
 
-export const columns = [
+const columns = [
 	{
 		title: "Categories ",
 		dataIndex: "categories",
@@ -164,41 +149,33 @@ export const columns = [
 		title: "Weekly",
 		dataIndex: "weekly",
 		key: "weekly",
-		render: (value) => {
-			return formatter(value);
-		},
+		render: formatter,
 		width: "10%",
 	},
 	{
 		title: "Fortnightly",
 		dataIndex: "fortnightly",
 		key: "fortnightly",
-		render: (value) => {
-			return formatter(value);
-		},
+		render: formatter,
 		width: "10%",
 	},
 	{
 		title: "Monthly",
 		key: "monthly",
 		dataIndex: "monthly",
-		render: (value) => {
-			return formatter(value);
-		},
+		render: formatter,
 		width: "10%",
 	},
 	{
 		title: "Annually",
 		key: "annually",
 		dataIndex: "annually",
-		render: (value) => {
-			return formatter(value);
-		},
+		render: formatter,
 		width: "10%",
 	},
 ];
 
-export const intialData = [
+const initialData = [
 	{
 		key: "1",
 		categories: "Taxable Income",
@@ -272,3 +249,5 @@ export const intialData = [
 		annually: 0,
 	},
 ];
+
+export { FREQUENCY, columns, initialData };

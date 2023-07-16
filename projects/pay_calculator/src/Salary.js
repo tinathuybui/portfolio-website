@@ -8,7 +8,8 @@ import {
 } from "antd";
 import "antd/dist/reset.css";
 import { useEffect, useRef, useState } from "react";
-import { intialData, columns, WEEKS, FREQUENCY } from "./data/constants";
+import { initialData, columns, FREQUENCY } from "./data/constants";
+import { WEEKS } from "./data/date.js";
 import {
 	medicareBracket,
 	medicareSurchargeThresholdBracket,
@@ -24,7 +25,7 @@ import * as XLSX from "xlsx";
 const Salary = () => {
 	const currentFinancialYear = getCurrentFinancialYear();
 	const [salary, setSalary] = useState();
-	const [data, setData] = useState(intialData);
+	const [data, setData] = useState(initialData);
 	const [superData, setSuperData] = useState(11);
 	const [isSuper, setIsSuper] = useState(false);
 	const [isResident, setIsResident] = useState(true);

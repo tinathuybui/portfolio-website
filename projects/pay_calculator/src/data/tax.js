@@ -1,5 +1,5 @@
 import { getCurrentFinancialYear } from "./util";
-import { WEEKS } from "./constants";
+import { WEEKS } from "./date";
 
 const taxTableAnnual = {
 	[getCurrentFinancialYear()]: {
