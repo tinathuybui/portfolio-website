@@ -33,3 +33,5 @@ To update the above package use the following command:
 ```shell
 npm install @testing-library/react@14.0.0
 ```
+
+# Merge
