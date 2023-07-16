@@ -1,10 +1,11 @@
 import {
 	InputNumber,
 	Select,
-	Switch as AntDSwitch,
 	Table,
 	Divider,
 	Button,
+	Checkbox,
+	Card,
 } from "antd";
 import "antd/dist/reset.css";
 import { useEffect, useRef, useState } from "react";
@@ -27,9 +28,11 @@ const Salary = () => {
 	const [salary, setSalary] = useState();
 	const [data, setData] = useState(initialData);
 	const [superData, setSuperData] = useState(11);
+
 	const [isSuper, setIsSuper] = useState(false);
 	const [isResident, setIsResident] = useState(true);
 	const [medicare, setMedicare] = useState(true);
+
 	const [frequency, setFrequency] = useState("Anually");
 	const [loading, setLoading] = useState(true);
 
@@ -289,14 +292,35 @@ const Salary = () => {
 				/>
 			</div>
 			<div className="switches">
-				<AntDSwitch
+				<Checkbox
+					onChange={(value) => setIsSuper(value)}
+					defaultChecked={isSuper}
+				>
+					Super included
+				</Checkbox>
+				<Checkbox
+					onChange={(value) => {
+						setIsResident(value);
+						setMedicare(value ? true : false);
+					}}
+					defaultChecked={isSuper}
+				>
+					Resident
+				</Checkbox>
+				<Checkbox
+					onChange={(value) => setMedicare(value)}
+					defaultChecked={isSuper}
+				>
+					Medicare included
+				</Checkbox>
+				{/* <AntDSwitch
 					checkedChildren="Super included"
 					unCheckedChildren="Super not included"
 					className="super-value"
 					onChange={(value) => setIsSuper(value)}
 					defaultChecked={isSuper}
-				/>
-				<AntDSwitch
+				/> */}
+				{/* <AntDSwitch
 					checkedChildren="Resident"
 					unCheckedChildren="Non resident"
 					defaultChecked={isResident}
@@ -305,15 +329,15 @@ const Salary = () => {
 						setMedicare(value ? true : false);
 					}}
 					className="resident"
-				/>
-				<AntDSwitch
+				/> */}
+				{/* <AntDSwitch
 					checkedChildren="Including Medicare"
 					unCheckedChildren="Medicare levy exemption"
 					checked={medicare}
 					onChange={(value) => setMedicare(value)}
 					className="medicare"
 					disabled={!isResident}
-				/>
+				/> */}
 				<Button
 					className="export"
 					onClick={() => handleExportToExcel()}
@@ -323,16 +347,17 @@ const Salary = () => {
 					Export
 				</Button>
 			</div>
-
-			<Table
-				columns={columns}
-				dataSource={data}
-				pagination={false}
-				className="table"
-				size="middle"
-				loading={loading}
-				rowClassName={rowClassName}
-			/>
+			<Card className="card">
+				<Table
+					columns={columns}
+					dataSource={data}
+					pagination={false}
+					className="table"
+					size="middle"
+					loading={loading}
+					rowClassName={rowClassName}
+				/>
+			</Card>
 
 			<Divider>Salary Projection</Divider>
 			<IncomeForecast class="income-forecast" salary={value.current} />
