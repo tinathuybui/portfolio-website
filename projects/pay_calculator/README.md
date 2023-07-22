@@ -1,3 +1,16 @@
+# Dev Env
+
+```shell
+node -v
+# v18.16.1 (LTS)
+
+yarn -v
+# 3.6.1
+
+npm -v
+# 9.5.1
+```
+
 # Installation
 
 ```shell
@@ -60,3 +73,28 @@ git push
 ## Merge conflict
 
 Fix the merge conflict and push the changes
+
+# Migration
+
+Migrate from [CRA](https://create-react-app.dev/) to [Vite](https://vitejs.dev/)
+
+```shell
+yarn create vite
+```
+
+Had to add the `.yarnrc.yml`
+
+```yml
+nodeLinker: "node-modules"
+```
+
+```shell
+yarn
+yarn run dev
+```
+
+Also, update the package.json
+
+```json
+	"packageManager": "yarn@3.6.1",
+```

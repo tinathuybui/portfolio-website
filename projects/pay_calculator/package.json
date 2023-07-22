@@ -1,43 +1,41 @@
 {
-  "name": "pay_calculator",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@ant-design/charts": "^1.4.2",
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^14.0.0",
-    "@testing-library/user-event": "^14.4.3",
-    "antd": "^5.2.2",
-    "big.js": "^6.2.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.8.2",
-    "react-scripts": "5.0.1",
-    "web-vitals": "^3.3.1",
-    "xlsx": "^0.18.5"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+	"name": "pay_calculator",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"packageManager": "yarn@3.6.1",
+	"scripts": {
+		"dev": "vite",
+		"build": "tsc && vite build",
+		"lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+		"preview": "vite preview"
+	},
+	"dependencies": {
+		"@ant-design/charts": "^1.4.2",
+		"@antv/xflow-extension": "^1.0.55",
+		"@testing-library/jest-dom": "^5.16.5",
+		"@testing-library/react": "^14.0.0",
+		"@testing-library/user-event": "^14.4.3",
+		"antd": "^5.2.2",
+		"big.js": "^6.2.1",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
+		"react-router-dom": "^6.8.2",
+		"react-scripts": "^2.1.3",
+		"web-vitals": "^3.3.1",
+		"xlsx": "^0.18.5"
+	},
+	"devDependencies": {
+		"@types/react": "^18.2.14",
+		"@types/react-dom": "^18.2.6",
+		"@typescript-eslint/eslint-plugin": "^5.61.0",
+		"@typescript-eslint/parser": "^5.61.0",
+		"@vitejs/plugin-react": "^4.0.1",
+		"eslint": "^8.44.0",
+		"eslint-config-prettier": "^8.8.0",
+		"eslint-plugin-react-hooks": "^4.6.0",
+		"eslint-plugin-react-refresh": "^0.4.1",
+		"typescript": "^5.0.2",
+		"vite": "^4.4.0"
+	}
 }
