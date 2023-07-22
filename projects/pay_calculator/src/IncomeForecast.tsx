@@ -1,16 +1,25 @@
 import { Column } from "@ant-design/charts";
 import { InputNumber } from "antd";
 import { useState, useMemo } from "react";
-import { formatter, getYearArray } from "./data/util";
 import "./IncomeForecast.css";
+import { formatter, getYearArray } from "./data/util";
 
-const IncomeForecast = ({ salary }) => {
-	const [anuallPercentage, setAnuallPercentage] = useState();
+interface IncomeForecastProps {
+	salary: number;
+	className: string;
+}
+
+const IncomeForecast: React.FC<IncomeForecastProps> = ({
+	salary,
+	className,
+}) => {
+	console.log(className);
+	const [anuallPercentage, setAnuallPercentage] = useState(2);
 	const years = useMemo(() => getYearArray(), []);
 
 	const data = useMemo(() => {
 		let prevSalary = salary;
-		return years.map((year, index) => {
+		return years.map((year: number) => {
 			const newSalary = prevSalary * (1 + anuallPercentage / 100);
 			prevSalary = newSalary;
 			return {
@@ -50,8 +59,13 @@ const IncomeForecast = ({ salary }) => {
 				className="percentage"
 				addonAfter="%"
 				defaultValue={anuallPercentage}
-				onChange={(value) => setAnuallPercentage(value)}
-				formatter={(value) => formatter(value)}
+				onChange={(value) => {
+					if (value) setAnuallPercentage(value);
+				}}
+				formatter={(value) => {
+					if (value) return formatter(value);
+					return "";
+				}}
 				placeholder="Salary raise percentage"
 			/>
 

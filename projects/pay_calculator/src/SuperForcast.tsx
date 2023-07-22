@@ -4,7 +4,7 @@ import { InputNumber } from "antd";
 import "./IncomeForecast.css";
 
 const SuperForcast = () => {
-	// const [anuallPercentage, setAnuallPercentage] = useState();
+	// const [anuallPercentage, setAnuallPercentage] = useState()∏
 	return (
 		<div className="IncomeForecast">
 			{/* <h1>Coming Soon</h1> <br /> */}

@@ -1,4 +1,4 @@
-export const formatNum = (num) => num.toFixed(2);
+export const formatNum = (num: number): number => parseInt(num.toFixed(2), 10);
 
 export const getCurrentFinancialYear = () => {
 	const today = new Date();
@@ -9,10 +9,10 @@ export const getCurrentFinancialYear = () => {
 	return `${financialYearStart}-${financialYearEnd}`;
 };
 
-export const formatter = (value) =>
+export const formatter = (value: number): string =>
 	`${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-export const getYearArray = (numYears = 5) => {
+export const getYearArray = (numYears = 5): number[] => {
 	const nextYear = new Date().getFullYear() + 1;
 	const yearArray = [];
 

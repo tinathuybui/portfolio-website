@@ -1,35 +1,44 @@
 import {
 	InputNumber,
 	Select,
-	Switch as AntDSwitch,
 	Table,
 	Divider,
 	Button,
+	Checkbox,
+	Card,
 } from "antd";
-import "antd/dist/reset.css";
 import { useEffect, useRef, useState } from "react";
-import { intialData, columns, WEEKS, FREQUENCY } from "./data/constants";
-import {
-	medicareBracket,
-	medicareSurchargeThresholdBracket,
-} from "./data/medicare";
-import { getTaxBracket, getTaxBracketNR } from "./data/tax";
-import { lowIncomeOffsetBracket } from "./data/lowIncomeOffset";
-import { formatNum, getCurrentFinancialYear, formatter } from "./data/util";
-import IncomeForecast from "./IncomeForecast";
+import { WEEKS } from "./data/date.ts";
+import IncomeForecast from "./IncomeForecast.jsx";
 import "./App.css";
 import { ExportOutlined } from "@ant-design/icons";
 import * as XLSX from "xlsx";
+import { formatNum, formatter, getCurrentFinancialYear } from "./data/util.ts";
+import {
+	COLUMNS,
+	INITIAL_DATA,
+	FREQUENCY,
+	IntialData,
+	frequencyKeys,
+} from "./data/constants.tsx";
+import {
+	medicareBracket,
+	medicareSurchargeThresholdBracket,
+} from "./data/medicare.ts";
+import { lowIncomeOffsetBracket } from "./data/lowIncomeOffset.ts";
+import { getTaxBracket, getTaxBracketNR } from "./data/tax.ts";
 
 const Salary = () => {
 	const currentFinancialYear = getCurrentFinancialYear();
-	const [salary, setSalary] = useState();
-	const [data, setData] = useState(intialData);
-	const [superData, setSuperData] = useState(11);
+	const [salary, setSalary] = useState<number>();
+	const [data, setData] = useState<IntialData[]>(INITIAL_DATA);
+	const [superData, setSuperData] = useState<number>(11);
+
 	const [isSuper, setIsSuper] = useState(false);
 	const [isResident, setIsResident] = useState(true);
 	const [medicare, setMedicare] = useState(true);
-	const [frequency, setFrequency] = useState("Anually");
+
+	const [frequency, setFrequency] = useState<frequencyKeys>("Anually");
 	const [loading, setLoading] = useState(true);
 
 	const value = useRef(0);
@@ -50,24 +59,24 @@ const Salary = () => {
 
 		const newData = [...data];
 
-		let weeklyGross = FREQUENCY[frequency].WEEKLY(
+		const weeklyGross = FREQUENCY[frequency].WEEKLY(
 			tempSalary,
 			superData,
 			isSuper
 		);
-		let fortnightlyGross = FREQUENCY[frequency].FORTNIGHTLY(
+		const fortnightlyGross = FREQUENCY[frequency].FORTNIGHTLY(
 			tempSalary,
 			superData,
 			isSuper
 		);
-		let monthlyGross = FREQUENCY[frequency].MONTHLY(
+		const monthlyGross = FREQUENCY[frequency].MONTHLY(
 			tempSalary,
 			superData,
 			isSuper
 		);
 
 		const aG = FREQUENCY[frequency].ANNUALLY(tempSalary, superData, isSuper);
-		let annuallyGross = aG.newGross;
+		const annuallyGross = aG.newGross;
 
 		value.current = annuallyGross;
 
@@ -81,16 +90,16 @@ const Salary = () => {
 		newData[0].monthly = monthlyF;
 		newData[0].annually = annuallyF;
 
-		let weeklySuper = isSuper
+		const weeklySuper = isSuper
 			? ((aG.preGross / 52) * superData) / 100
 			: (weeklyGross * superData) / 100;
-		let fortnightlySuper = isSuper
+		const fortnightlySuper = isSuper
 			? ((aG.preGross / 26) * superData) / 100
 			: (fortnightlyGross * superData) / 100;
-		let monthlySuper = isSuper
+		const monthlySuper = isSuper
 			? ((aG.preGross / 12) * superData) / 100
 			: (monthlyGross * superData) / 100;
-		let annuallySuper = isSuper
+		const annuallySuper = isSuper
 			? (aG.preGross * superData) / 100
 			: (aG.preGross * superData) / 100;
 
@@ -136,10 +145,10 @@ const Salary = () => {
 					monthlyMedicare
 			  );
 
-		let weeklytax = tax.weeklytax;
-		let fortnighttax = tax.fortnighttax;
-		let monthlytax = tax.monthlytax;
-		let annuallytax = tax.annuallytax();
+		const weeklytax = tax.weeklytax;
+		const fortnighttax = tax.fortnighttax;
+		const monthlytax = tax.monthlytax;
+		const annuallytax = tax.annuallytax();
 
 		const mlsBracket = medicareSurchargeThresholdBracket(annuallyGross);
 
@@ -155,9 +164,9 @@ const Salary = () => {
 			annuallyMLS = mlsBracket.calculateMLS(annuallyGross);
 		}
 
-		let weeklyLITO = 0;
-		let fortnightLITO = 0;
-		let monthlyLITO = 0;
+		const weeklyLITO = 0;
+		const fortnightLITO = 0;
+		const monthlyLITO = 0;
 		let annuallyLITO = 0;
 
 		if (isResident) {
@@ -241,18 +250,20 @@ const Salary = () => {
 		// eslint-disable-next-line
 	}, [salary, superData, isSuper, isResident, medicare, frequency]);
 
-	const rowClassName = (record, index) => {
+	const rowClassName = (record: IntialData, index: number): string => {
 		if (index === data.length - 1) return "bold-row";
-		if (index === 3 && record.annually === "0.00") {
+
+		if (index === 3 && record.annually === 0) {
 			return "hide-row";
 		}
 		if (
-			(index === 4 || index === 5 || (index === 6) | (index === 7)) &&
+			(index === 4 || index === 5 || index === 6 || index === 7) &&
 			!isResident
 		) {
 			return "hide-row";
 		}
 		if (index === 7) return "hide-row";
+		return "";
 	};
 
 	return (
@@ -263,15 +274,24 @@ const Salary = () => {
 					className="salary"
 					addonAfter="$"
 					defaultValue={salary}
-					onChange={(value) => setSalary(value)}
-					formatter={(value) => formatter(value)}
+					onChange={(value) => {
+						if (value) {
+							setSalary(value);
+						}
+					}}
+					formatter={(value) => {
+						if (value) {
+							return formatter(value);
+						}
+						return "";
+					}}
 					placeholder="Salary before TAX"
 				/>
 				<Select
 					className="pay-cycle"
 					defaultValue="Anually"
 					style={{ width: 120 }}
-					onChange={(value) => setFrequency(value)}
+					onChange={(value) => setFrequency(value as frequencyKeys)}
 					value={frequency}
 					options={[
 						{ value: "Anually", label: "Annually" },
@@ -284,35 +304,35 @@ const Salary = () => {
 					className="super"
 					addonAfter="%"
 					defaultValue={superData}
-					onChange={(value) => setSuperData(value)}
+					onChange={(value) => {
+						if (value) setSuperData(value);
+					}}
 				/>
 			</div>
 			<div className="switches">
-				<AntDSwitch
-					checkedChildren="Super included"
-					unCheckedChildren="Super not included"
-					className="super-value"
-					onChange={(value) => setIsSuper(value)}
-					defaultChecked={isSuper}
-				/>
-				<AntDSwitch
-					checkedChildren="Resident"
-					unCheckedChildren="Non resident"
-					defaultChecked={isResident}
+				<Checkbox
 					onChange={(value) => {
-						setIsResident(value);
+						setIsSuper(value.target.checked);
+					}}
+					defaultChecked={isSuper}
+				>
+					Super included
+				</Checkbox>
+				<Checkbox
+					onChange={(value) => {
+						setIsResident(value.target.checked);
 						setMedicare(value ? true : false);
 					}}
-					className="resident"
-				/>
-				<AntDSwitch
-					checkedChildren="Including Medicare"
-					unCheckedChildren="Medicare levy exemption"
-					checked={medicare}
-					onChange={(value) => setMedicare(value)}
-					className="medicare"
-					disabled={!isResident}
-				/>
+					defaultChecked={isSuper}
+				>
+					Resident
+				</Checkbox>
+				<Checkbox
+					onChange={(value) => setMedicare(value.target.checked)}
+					defaultChecked={isSuper}
+				>
+					Medicare included
+				</Checkbox>
 				<Button
 					className="export"
 					onClick={() => handleExportToExcel()}
@@ -322,19 +342,20 @@ const Salary = () => {
 					Export
 				</Button>
 			</div>
-
-			<Table
-				columns={columns}
-				dataSource={data}
-				pagination={false}
-				className="table"
-				size="middle"
-				loading={loading}
-				rowClassName={rowClassName}
-			/>
+			<Card className="card">
+				<Table
+					columns={COLUMNS}
+					dataSource={data}
+					pagination={false}
+					className="table"
+					size="middle"
+					loading={loading}
+					rowClassName={rowClassName}
+				/>
+			</Card>
 
 			<Divider>Salary Projection</Divider>
-			<IncomeForecast class="income-forecast" salary={value.current} />
+			<IncomeForecast className="income-forecast" salary={value.current} />
 		</div>
 	);
 };

@@ -1,4 +1,5 @@
 import "antd/dist/reset.css";
+import "./index.css";
 import { Routes, Route } from "react-router-dom";
 import Salary from "./Salary";
 import SuperForcast from "./SuperForcast";
@@ -10,7 +11,7 @@ const text = `
 This website is for informational purposes only.
 `;
 
-function App() {
+const App = () => {
 	return (
 		<>
 			<Navigation />
@@ -25,6 +26,5 @@ function App() {
 			</Collapse>
 		</>
 	);
-}
-
+};
 export default App;

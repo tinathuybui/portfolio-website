@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Navigation = () => {
 	return (
-		<Layout theme="light">
+		<Layout>
 			<Menu mode="horizontal" defaultSelectedKeys={["1"]}>
 				<Menu.Item key="1">
 					<Link to="/">Salary</Link>

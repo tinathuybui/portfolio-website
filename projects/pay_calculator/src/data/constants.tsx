@@ -1,34 +1,35 @@
 import { formatter } from "./util";
 
-export const WEEKS = {
-	WEEKLY: 52,
-	FORTNIGHTLY: 26,
-	MONTHLY: 12,
-	ANNUALLY: 1,
-};
+export type frequencyKeys = "Anually" | "Monthly" | "Fortnightly" | "Weekly";
 
-export const FREQUENCY = {
+const FREQUENCY = {
 	Anually: {
-		WEEKLY: function (tempSalary, superData, isSuper) {
+		WEEKLY: function(tempSalary: number, superData: number, isSuper: boolean) {
 			return isSuper
 				? tempSalary / (1 + superData / 100) / 52
 				: tempSalary / 52;
 		},
-		FORTNIGHTLY: function (tempSalary, superData, isSuper) {
+		FORTNIGHTLY: function(
+			tempSalary: number,
+			superData: number,
+			isSuper: boolean
+		) {
 			return isSuper
 				? tempSalary / (1 + superData / 100) / 26
 				: tempSalary / 26;
 		},
-		MONTHLY: function (tempSalary, superData, isSuper) {
+		MONTHLY: function(tempSalary: number, superData: number, isSuper: boolean) {
 			return isSuper
 				? tempSalary / (1 + superData / 100) / 12
 				: tempSalary / 12;
 		},
-		ANNUALLY: function (tempSalary, superData, isSuper) {
-			let aG = isSuper ? tempSalary / (1 + superData / 100) : tempSalary;
-			let annuallySuper = isSuper
-				? (aG * superData) / 100
-				: (aG * superData) / 100;
+		ANNUALLY: function(
+			tempSalary: number,
+			superData: number,
+			isSuper: boolean
+		) {
+			const aG = isSuper ? tempSalary / (1 + superData / 100) : tempSalary;
+			const annuallySuper = (aG * superData) / 100;
 			const annuallySuperConcession =
 				annuallySuper > 27500 ? annuallySuper - 27500 : 0;
 			return {
@@ -38,26 +39,32 @@ export const FREQUENCY = {
 		},
 	},
 	Monthly: {
-		WEEKLY: function (tempSalary, superData, isSuper) {
+		WEEKLY: function(tempSalary: number, superData: number, isSuper: boolean) {
 			return isSuper
 				? ((tempSalary / (1 + superData / 100)) * 12) / 52
 				: (tempSalary * 12) / 52;
 		},
-		FORTNIGHTLY: function (tempSalary, superData, isSuper) {
+		FORTNIGHTLY: function(
+			tempSalary: number,
+			superData: number,
+			isSuper: boolean
+		) {
 			return isSuper
 				? ((tempSalary / (1 + superData / 100)) * 12) / 26
 				: (tempSalary * 12) / 26;
 		},
-		MONTHLY: function (tempSalary, superData, isSuper) {
+		MONTHLY: function(tempSalary: number, superData: number, isSuper: boolean) {
 			return isSuper ? tempSalary / (1 + superData / 100) : tempSalary;
 		},
-		ANNUALLY: function (tempSalary, superData, isSuper) {
-			let aG = isSuper
+		ANNUALLY: function(
+			tempSalary: number,
+			superData: number,
+			isSuper: boolean
+		) {
+			const aG = isSuper
 				? (tempSalary / (1 + superData / 100)) * 12
 				: tempSalary * 12;
-			let annuallySuper = isSuper
-				? (aG * superData) / 100
-				: (aG * superData) / 100;
+			const annuallySuper = (aG * superData) / 100;
 			const annuallySuperConcession =
 				annuallySuper > 27500 ? annuallySuper - 27500 : 0;
 			return {
@@ -67,24 +74,30 @@ export const FREQUENCY = {
 		},
 	},
 	Fortnightly: {
-		WEEKLY: function (tempSalary, superData, isSuper) {
+		WEEKLY: function(tempSalary: number, superData: number, isSuper: boolean) {
 			return isSuper ? tempSalary / (1 + superData / 100) / 2 : tempSalary / 2;
 		},
-		FORTNIGHTLY: function (tempSalary, superData, isSuper) {
+		FORTNIGHTLY: function(
+			tempSalary: number,
+			superData: number,
+			isSuper: boolean
+		) {
 			return isSuper ? tempSalary / (1 + superData / 100) : tempSalary;
 		},
-		MONTHLY: function (tempSalary, superData, isSuper) {
+		MONTHLY: function(tempSalary: number, superData: number, isSuper: boolean) {
 			return isSuper
 				? ((tempSalary / (1 + superData / 100)) * 26) / 12
 				: (tempSalary * 26) / 12;
 		},
-		ANNUALLY: function (tempSalary, superData, isSuper) {
-			let aG = isSuper
+		ANNUALLY: function(
+			tempSalary: number,
+			superData: number,
+			isSuper: boolean
+		) {
+			const aG = isSuper
 				? (tempSalary / (1 + superData / 100)) * 26
 				: tempSalary * 26;
-			let annuallySuper = isSuper
-				? (aG * superData) / 100
-				: (aG * superData) / 100;
+			const annuallySuper = (aG * superData) / 100;
 			const annuallySuperConcession =
 				annuallySuper > 27500 ? annuallySuper - 27500 : 0;
 			return {
@@ -94,26 +107,32 @@ export const FREQUENCY = {
 		},
 	},
 	Weekly: {
-		WEEKLY: function (tempSalary, superData, isSuper) {
+		WEEKLY: function(tempSalary: number, superData: number, isSuper: boolean) {
 			return isSuper ? tempSalary / (1 + superData / 100) : tempSalary;
 		},
-		FORTNIGHTLY: function (tempSalary, superData, isSuper) {
+		FORTNIGHTLY: function(
+			tempSalary: number,
+			superData: number,
+			isSuper: boolean
+		) {
 			return isSuper
 				? (tempSalary / (1 + superData / 100)) * 2
 				: tempSalary * 2;
 		},
-		MONTHLY: function (tempSalary, superData, isSuper) {
+		MONTHLY: function(tempSalary: number, superData: number, isSuper: boolean) {
 			return isSuper
 				? ((tempSalary / (1 + superData / 100)) * 52) / 12
 				: (tempSalary * 52) / 12;
 		},
-		ANNUALLY: function (tempSalary, superData, isSuper) {
-			let aG = isSuper
+		ANNUALLY: function(
+			tempSalary: number,
+			superData: number,
+			isSuper: boolean
+		) {
+			const aG = isSuper
 				? (tempSalary / (1 + superData / 100)) * 52
 				: tempSalary * 52;
-			let annuallySuper = isSuper
-				? (aG * superData) / 100
-				: (aG * superData) / 100;
+			const annuallySuper = (aG * superData) / 100;
 			const annuallySuperConcession =
 				annuallySuper > 27500 ? annuallySuper - 27500 : 0;
 			return {
@@ -124,12 +143,12 @@ export const FREQUENCY = {
 	},
 };
 
-export const columns = [
+const COLUMNS = [
 	{
 		title: "Categories ",
 		dataIndex: "categories",
 		key: "categories",
-		render: (categories) => {
+		render: (categories: string) => {
 			switch (categories) {
 				case "Medicare Levy":
 					return (
@@ -164,41 +183,42 @@ export const columns = [
 		title: "Weekly",
 		dataIndex: "weekly",
 		key: "weekly",
-		render: (value) => {
-			return formatter(value);
-		},
+		render: formatter,
 		width: "10%",
 	},
 	{
 		title: "Fortnightly",
 		dataIndex: "fortnightly",
 		key: "fortnightly",
-		render: (value) => {
-			return formatter(value);
-		},
+		render: formatter,
 		width: "10%",
 	},
 	{
 		title: "Monthly",
 		key: "monthly",
 		dataIndex: "monthly",
-		render: (value) => {
-			return formatter(value);
-		},
+		render: formatter,
 		width: "10%",
 	},
 	{
 		title: "Annually",
 		key: "annually",
 		dataIndex: "annually",
-		render: (value) => {
-			return formatter(value);
-		},
+		render: formatter,
 		width: "10%",
 	},
 ];
 
-export const intialData = [
+export interface IntialData {
+	key: string;
+	categories: string;
+	weekly: number;
+	fortnightly: number;
+	monthly: number;
+	annually: number;
+}
+
+const INITIAL_DATA: IntialData[] = [
 	{
 		key: "1",
 		categories: "Taxable Income",
@@ -272,3 +292,5 @@ export const intialData = [
 		annually: 0,
 	},
 ];
+
+export { FREQUENCY, COLUMNS, INITIAL_DATA };
