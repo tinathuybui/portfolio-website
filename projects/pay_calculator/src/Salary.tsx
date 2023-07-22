@@ -7,7 +7,6 @@ import {
 	Checkbox,
 	Card,
 } from "antd";
-import "antd/dist/reset.css";
 import { useEffect, useRef, useState } from "react";
 import { WEEKS } from "./data/date.ts";
 import IncomeForecast from "./IncomeForecast.jsx";

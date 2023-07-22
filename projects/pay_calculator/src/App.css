@@ -1,42 +1,68 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.App {
+	display: grid;
+	grid-template-areas:
+		"header"
+		"input-container"
+		"switches"
+		"table"
+		"income-forecast";
+	grid-template-rows: auto auto auto auto auto;
+	grid-gap: 20px;
+	padding-top: 50px;
+	padding-left: 10px;
+	padding-right: 10px;
+	justify-items: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.main-header {
+	display: flex;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.header {
+	grid-area: header;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.input-container {
+	grid-area: input-container;
+	display: flex;
+	grid-gap: 10px;
+}
+
+.export {
+	margin-left: auto;
+}
+
+.switches {
+	grid-area: switches;
+	display: flex;
+	grid-gap: 10px;
+	align-items: center;
+}
+
+.table {
+	grid-area: table;
+}
+
+.income-forecast {
+	grid-area: income-forecast;
+}
+
+.bold-row {
+	font-weight: bold;
+	background-color: #ecf0f1;
+}
+
+.hide-row {
+	display: none;
 }
 
 .card {
-  padding: 2em;
+	background-color: whitesmoke;
+	width: 1200px;
 }
 
-.read-the-docs {
-  color: #888;
+@media only screen and (max-width: 1550px) {
+	.card {
+		width: 95%;
+	}
 }
