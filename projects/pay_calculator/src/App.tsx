@@ -6,26 +6,22 @@ import Header from "./Header";
 import "./App.css";
 import { Collapse, Layout } from "antd";
 import { ROUTES } from "./routes";
-import { Footer } from "antd/es/layout/layout";
 const { Panel } = Collapse;
 const text = `
 This website is for informational purposes only.
 `;
 
-const { Content } = Layout;
-
 const App = () => {
 	return (
 		<>
 			<Header />
-			<Content>{useRoutes(ROUTES)}</Content>
-			<Footer>
-				<Collapse>
-					<Panel header="Disclaimer" key="1">
-						<p>{text}</p>
-					</Panel>
-				</Collapse>
-			</Footer>
+			{useRoutes(ROUTES)}
+
+			<Collapse>
+				<Panel header="Disclaimer" key="1">
+					<p>{text}</p>
+				</Panel>
+			</Collapse>
 		</>
 	);
 };
