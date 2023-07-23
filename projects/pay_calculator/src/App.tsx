@@ -1,10 +1,9 @@
 import "antd/dist/reset.css";
 import "./index.css";
 import { useRoutes } from "react-router-dom";
-
 import Header from "./Header";
 import "./App.css";
-import { Collapse, Layout } from "antd";
+import { Collapse } from "antd";
 import { ROUTES } from "./routes";
 const { Panel } = Collapse;
 const text = `
