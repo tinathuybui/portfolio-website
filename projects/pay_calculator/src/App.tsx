@@ -16,7 +16,7 @@ const { Content } = Layout;
 
 const App = () => {
 	return (
-		<Layout>
+		<>
 			<Header />
 			<Content>{useRoutes(ROUTES)}</Content>
 			<Footer>
@@ -26,7 +26,7 @@ const App = () => {
 					</Panel>
 				</Collapse>
 			</Footer>
-		</Layout>
+		</>
 	);
 };
 export default App;
