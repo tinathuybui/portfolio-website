@@ -26,7 +26,8 @@ import {
 	medicareSurchargeThresholdBracket,
 } from "./data/medicare.ts";
 import { lowIncomeOffsetBracket } from "./data/lowIncomeOffset.ts";
-import { getTaxBracket, getTaxBracketNR } from "./data/tax.ts";
+import { getTaxBracket } from "./data/tax/TaxTier.ts";
+import { getTaxBracketNR } from "./data/tax/TaxTierNR.ts";
 
 const Salary = () => {
 	const currentFinancialYear = getCurrentFinancialYear();

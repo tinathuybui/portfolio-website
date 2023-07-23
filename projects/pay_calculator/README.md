@@ -16,13 +16,13 @@ npm -v
 ```shell
 mkdir pay_calculator
 cd pay_calculator
-npm create react-app . --template typescript
+yarn create vite
 ```
 
 # Development
 
 ```shell
-npm start
+yarn dev
 ```
 
 # APP URL
@@ -32,9 +32,9 @@ npm start
 # Update packages
 
 ```shell
-npm outdated
-# npm update will not update the major versions, only minor and patch (major.minor.patch)
-npm update
+yarn outdated
+# yarn update will not update the major versions, only minor and patch (major.minor.patch)
+yarn update
 ```
 
 ```
@@ -44,7 +44,7 @@ npm update
 To update the above package use the following command:
 
 ```shell
-npm install @testing-library/react@14.0.0
+yarn add @testing-library/react@14.0.0
 ```
 
 # Dependabot

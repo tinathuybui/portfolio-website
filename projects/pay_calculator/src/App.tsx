@@ -1,30 +1,32 @@
 import "antd/dist/reset.css";
 import "./index.css";
-import { Routes, Route } from "react-router-dom";
-import Salary from "./Salary";
-import SuperForcast from "./SuperForcast";
-import Navigation from "./Navigation";
+import { useRoutes } from "react-router-dom";
+
+import Header from "./Header";
 import "./App.css";
-import { Collapse } from "antd";
+import { Collapse, Layout } from "antd";
+import { ROUTES } from "./routes";
+import { Footer } from "antd/es/layout/layout";
 const { Panel } = Collapse;
 const text = `
 This website is for informational purposes only.
 `;
 
+const { Content } = Layout;
+
 const App = () => {
 	return (
-		<>
-			<Navigation />
-			<Routes>
-				<Route path="/" element={<Salary />} />
-				<Route path="/super" element={<SuperForcast />} />
-			</Routes>
-			<Collapse>
-				<Panel header="Disclaimer" key="1">
-					<p>{text}</p>
-				</Panel>
-			</Collapse>
-		</>
+		<Layout>
+			<Header />
+			<Content>{useRoutes(ROUTES)}</Content>
+			<Footer>
+				<Collapse>
+					<Panel header="Disclaimer" key="1">
+						<p>{text}</p>
+					</Panel>
+				</Collapse>
+			</Footer>
+		</Layout>
 	);
 };
 export default App;
