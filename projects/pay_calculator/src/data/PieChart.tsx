@@ -1,4 +1,3 @@
-import React from "react";
 import ReactECharts from "echarts-for-react";
 
 interface PieChartProps {
@@ -21,7 +20,7 @@ const PieChart: React.FC<PieChartProps> = ({
 					},
 					tooltip: {
 						trigger: "item",
-						formatter: "{a} <br/>{b} : {c} ({d}%)",
+						formatter: "{a} <br/>{b} : ${c} ({d}%)",
 					},
 					series: [
 						{
@@ -41,7 +40,8 @@ const PieChart: React.FC<PieChartProps> = ({
 								},
 							},
 							label: {
-								formatter: "{b}: {c}%",
+								show: true,
+								formatter: "{b}: {d}%",
 							},
 						},
 					],
