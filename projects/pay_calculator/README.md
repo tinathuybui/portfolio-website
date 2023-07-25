@@ -100,3 +100,10 @@ Also, update the package.json
 ```json
 	"packageManager": "yarn@3.6.1",
 ```
+
+# How to add packages
+
+```shell
+yarn add echarts
+yarn add echarts-for-react
+```
