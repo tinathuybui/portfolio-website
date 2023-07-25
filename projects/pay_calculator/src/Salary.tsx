@@ -28,6 +28,7 @@ import {
 import { lowIncomeOffsetBracket } from "./data/lowIncomeOffset.ts";
 import { getTaxBracket } from "./data/tax/TaxTier.ts";
 import { getTaxBracketNR } from "./data/tax/TaxTierNR.ts";
+import PieChart from "./data/PieChart.tsx";
 
 const Salary = () => {
 	const currentFinancialYear = getCurrentFinancialYear();
@@ -38,6 +39,16 @@ const Salary = () => {
 	const [isSuper, setIsSuper] = useState(false);
 	const [isResident, setIsResident] = useState(true);
 	const [medicare, setMedicare] = useState(true);
+
+	const handleResidentChange = (isChecked: boolean) => {
+		setIsResident(isChecked);
+		if (!isChecked) {
+			setMedicare(true);
+		}
+	};
+
+	const takeHomePercentageRef = useRef(0);
+	const incomeTaxPercentageRef = useRef(0);
 
 	const [frequency, setFrequency] = useState<frequencyKeys>("Anually");
 	const [loading, setLoading] = useState(true);
@@ -78,7 +89,6 @@ const Salary = () => {
 
 		const aG = FREQUENCY[frequency].ANNUALLY(tempSalary, superData, isSuper);
 		const annuallyGross = aG.newGross;
-
 		value.current = annuallyGross;
 
 		const weeklyF = formatNum(weeklyGross);
@@ -198,13 +208,27 @@ const Salary = () => {
 			fortnightLITO;
 		monthlynetincome =
 			monthlyGross - monthlytax - monthlyMedicare - monthlyMLS + monthlyLITO;
-		annuallynetincome =
-			tempSalary -
-			annuallytax -
-			div293 -
-			annuallyMedicare -
-			annuallyMLS +
-			annuallyLITO;
+		if (isSuper) {
+			annuallynetincome =
+				tempSalary -
+				annuallytax -
+				div293 -
+				annuallyMedicare -
+				annuallyMLS +
+				annuallyLITO -
+				annuallySuper;
+		} else {
+			annuallynetincome =
+				tempSalary -
+				annuallytax -
+				div293 -
+				annuallyMedicare -
+				annuallyMLS +
+				annuallyLITO;
+		}
+
+		takeHomePercentageRef.current = annuallynetincome;
+		incomeTaxPercentageRef.current = annuallytax;
 
 		newData[1].weekly = formatNum(weeklySuper);
 		newData[1].fortnightly = formatNum(fortnightlySuper);
@@ -247,14 +271,22 @@ const Salary = () => {
 		newData[8].annually = formatNum(annuallynetincome);
 
 		setData(newData);
+
 		setTimeout(() => setLoading(false), 100);
 		// eslint-disable-next-line
 	}, [salary, superData, isSuper, isResident, medicare, frequency]);
 
+	useEffect(() => {
+		if (salary && salary <= 18200) {
+			takeHomePercentageRef.current = 0;
+			incomeTaxPercentageRef.current = 0;
+		}
+	}, [salary]);
+
 	const rowClassName = (record: IntialData, index: number): string => {
 		if (index === data.length - 1) return "bold-row";
 
-		if (index === 3 && record.annually === 0) {
+		if (index === 3 && record.annually === "0") {
 			return "hide-row";
 		}
 		if (
@@ -278,6 +310,8 @@ const Salary = () => {
 					onChange={(value) => {
 						if (value) {
 							setSalary(value);
+						} else {
+							setSalary(0);
 						}
 					}}
 					formatter={(value) => {
@@ -320,17 +354,14 @@ const Salary = () => {
 					Super included
 				</Checkbox>
 				<Checkbox
-					onChange={(value) => {
-						setIsResident(value.target.checked);
-						setMedicare(value ? true : false);
-					}}
-					defaultChecked={isSuper}
+					onChange={(value) => handleResidentChange(value.target.checked)}
+					defaultChecked={isResident}
 				>
 					Resident
 				</Checkbox>
 				<Checkbox
 					onChange={(value) => setMedicare(value.target.checked)}
-					defaultChecked={isSuper}
+					checked={isResident && medicare}
 				>
 					Medicare included
 				</Checkbox>
@@ -355,8 +386,16 @@ const Salary = () => {
 				/>
 			</Card>
 
-			<Divider>Salary Projection</Divider>
-			<IncomeForecast className="income-forecast" salary={value.current} />
+			<Divider>Salary Insights</Divider>
+			<Card className="card">
+				<PieChart
+					takeHomePercentage={takeHomePercentageRef.current}
+					incomeTaxPercentage={incomeTaxPercentageRef.current}
+				/>
+			</Card>
+			<Card className="card">
+				<IncomeForecast className="income-forecast" salary={value.current} />
+			</Card>
 		</div>
 	);
 };

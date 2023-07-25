@@ -1,4 +1,4 @@
-export const formatNum = (num: number): number => parseInt(num.toFixed(2), 10);
+export const formatNum = (num: number) => num.toFixed(2);
 
 export const getCurrentFinancialYear = () => {
 	const today = new Date();

@@ -1,5 +1,5 @@
 import { Column } from "@ant-design/charts";
-import { InputNumber } from "antd";
+import { InputNumber, Typography } from "antd";
 import { useState, useMemo } from "react";
 import "./IncomeForecast.css";
 import { formatter, getYearArray } from "./data/util";
@@ -68,7 +68,7 @@ const IncomeForecast: React.FC<IncomeForecastProps> = ({
 				}}
 				placeholder="Salary raise percentage"
 			/>
-
+			<Typography.Title level={4}>Salary Projection</Typography.Title>
 			<Column {...config} style={{ height: 400 }} className="chart" />
 		</div>
 	);

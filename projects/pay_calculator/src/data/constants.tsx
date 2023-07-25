@@ -212,84 +212,84 @@ const COLUMNS = [
 export interface IntialData {
 	key: string;
 	categories: string;
-	weekly: number;
-	fortnightly: number;
-	monthly: number;
-	annually: number;
+	weekly: string;
+	fortnightly: string;
+	monthly: string;
+	annually: string;
 }
 
 const INITIAL_DATA: IntialData[] = [
 	{
 		key: "1",
 		categories: "Taxable Income",
-		weekly: 0,
-		fortnightly: 0,
-		monthly: 0,
-		annually: 0,
+		weekly: "0",
+		fortnightly: "0",
+		monthly: "0",
+		annually: "0",
 	},
 	{
 		key: "2",
 		categories: "Superannuation",
-		weekly: 0,
-		fortnightly: 0,
-		monthly: 0,
-		annually: 0,
+		weekly: "0",
+		fortnightly: "0",
+		monthly: "0",
+		annually: "0",
 	},
 	{
 		key: "3",
 		categories: "Income Tax",
-		weekly: 0,
-		fortnightly: 0,
-		monthly: 0,
-		annually: 0,
+		weekly: "0",
+		fortnightly: "0",
+		monthly: "0",
+		annually: "0",
 	},
 	{
 		key: "4",
 		categories: "Division 293",
-		weekly: 0,
-		fortnightly: 0,
-		monthly: 0,
-		annually: 0,
+		weekly: "0",
+		fortnightly: "0",
+		monthly: "0",
+		annually: "0",
 	},
 	{
 		key: "5",
 		categories: "Medicare Levy",
-		weekly: 0,
-		fortnightly: 0,
-		monthly: 0,
-		annually: 0,
+		weekly: "0",
+		fortnightly: "0",
+		monthly: "0",
+		annually: "0",
 	},
 	{
 		key: "6",
 		categories: "Medicare Levy Surcharge",
-		weekly: 0,
-		fortnightly: 0,
-		monthly: 0,
-		annually: 0,
+		weekly: "0",
+		fortnightly: "0",
+		monthly: "0",
+		annually: "0",
 	},
 	{
 		key: "7",
 		categories: "Low Income Tax Offset",
-		weekly: 0,
-		fortnightly: 0,
-		monthly: 0,
-		annually: 0,
+		weekly: "0",
+		fortnightly: "0",
+		monthly: "0",
+		annually: "0",
 	},
 	{
 		key: "8",
 		categories: "Low and Middle Income Tax Offset",
-		weekly: 0,
-		fortnightly: 0,
-		monthly: 0,
-		annually: 0,
+		weekly: "0",
+		fortnightly: "0",
+		monthly: "0",
+		annually: "0",
 	},
 	{
 		key: "9",
 		categories: "Take Home Pay",
-		weekly: 0,
-		fortnightly: 0,
-		monthly: 0,
-		annually: 0,
+		weekly: "0",
+		fortnightly: "0",
+		monthly: "0",
+		annually: "0",
 	},
 ];
 
