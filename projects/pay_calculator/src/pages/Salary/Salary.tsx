@@ -8,26 +8,26 @@ import {
 	Card,
 } from "antd";
 import { useEffect, useRef, useState } from "react";
-import { WEEKS } from "../data/date.ts";
-import IncomeForecast from "./IncomeForecast.js";
+import { WEEKS } from "data/date.ts";
+import IncomeForecast from "pages/IncomeForecast/IncomeForecast.tsx";
 import "./Salary.css";
 import { ExportOutlined } from "@ant-design/icons";
 import * as XLSX from "xlsx";
-import { formatNum, formatter, getCurrentFinancialYear } from "../data/util.ts";
+import { formatNum, formatter, getCurrentFinancialYear } from "data/util.ts";
 import {
 	COLUMNS,
 	INITIAL_DATA,
 	FREQUENCY,
 	IntialData,
 	frequencyKeys,
-} from "../data/constants.tsx";
+} from "data/constants.tsx";
 import {
 	medicareBracket,
 	medicareSurchargeThresholdBracket,
-} from "../data/medicare.ts";
-import { lowIncomeOffsetBracket } from "../data/lowIncomeOffset.ts";
-import { getTaxBracket } from "../data/tax/TaxTier.ts";
-import { getTaxBracketNR } from "../data/tax/TaxTierNR.ts";
+} from "data/medicare.ts";
+import { lowIncomeOffsetBracket } from "data/lowIncomeOffset.ts";
+import { getTaxBracket } from "data/tax/TaxTier.ts";
+import { getTaxBracketNR } from "data/tax/TaxTierNR.ts";
 import PieChart from "./PieChart.tsx";
 
 const Salary = () => {
