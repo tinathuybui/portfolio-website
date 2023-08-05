@@ -65,6 +65,8 @@ const Salary = () => {
 	useEffect(() => {
 		setLoading(true);
 
+		console.log("value.current", salary);
+
 		let tempSalary = 0;
 
 		if (salary && salary >= 0) tempSalary = salary;
@@ -379,7 +381,7 @@ const Salary = () => {
 				/>
 			</Card>
 
-			{value.current !== 0 && (
+			{value.current && value.current !== 0 && (
 				<>
 					<Divider>Salary Insights</Divider>
 					<Card className="card">
