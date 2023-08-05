@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Input, Button, Form, Typography } from "antd";
-import "./dividend.css";
+import "./Dividend.css";
 const { Text } = Typography;
 
 interface InvestmentResult {
