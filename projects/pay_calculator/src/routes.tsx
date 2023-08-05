@@ -1,5 +1,5 @@
-import Salary from "./Salary";
-import Dividend from "./Dividendcalculator";
+import Salary from "./pages/Salary";
+import Dividend from "./pages/Dividendcalculator";
 
 const ROUTES = [
 	{

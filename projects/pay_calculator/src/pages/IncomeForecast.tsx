@@ -2,7 +2,7 @@ import { Column } from "@ant-design/charts";
 import { InputNumber, Typography } from "antd";
 import { useState, useMemo } from "react";
 import "./IncomeForecast.css";
-import { formatter, getYearArray } from "./data/util";
+import { formatter, getYearArray } from "../data/util";
 
 interface IncomeForecastProps {
 	salary: number;

@@ -8,27 +8,27 @@ import {
 	Card,
 } from "antd";
 import { useEffect, useRef, useState } from "react";
-import { WEEKS } from "./data/date.ts";
-import IncomeForecast from "./IncomeForecast.jsx";
-import "./App.css";
+import { WEEKS } from "../data/date.ts";
+import IncomeForecast from "./IncomeForecast.js";
+import "./Salary.css";
 import { ExportOutlined } from "@ant-design/icons";
 import * as XLSX from "xlsx";
-import { formatNum, formatter, getCurrentFinancialYear } from "./data/util.ts";
+import { formatNum, formatter, getCurrentFinancialYear } from "../data/util.ts";
 import {
 	COLUMNS,
 	INITIAL_DATA,
 	FREQUENCY,
 	IntialData,
 	frequencyKeys,
-} from "./data/constants.tsx";
+} from "../data/constants.tsx";
 import {
 	medicareBracket,
 	medicareSurchargeThresholdBracket,
-} from "./data/medicare.ts";
-import { lowIncomeOffsetBracket } from "./data/lowIncomeOffset.ts";
-import { getTaxBracket } from "./data/tax/TaxTier.ts";
-import { getTaxBracketNR } from "./data/tax/TaxTierNR.ts";
-import PieChart from "./data/PieChart.tsx";
+} from "../data/medicare.ts";
+import { lowIncomeOffsetBracket } from "../data/lowIncomeOffset.ts";
+import { getTaxBracket } from "../data/tax/TaxTier.ts";
+import { getTaxBracketNR } from "../data/tax/TaxTierNR.ts";
+import PieChart from "./PieChart.tsx";
 
 const Salary = () => {
 	const currentFinancialYear = getCurrentFinancialYear();
@@ -379,16 +379,23 @@ const Salary = () => {
 				/>
 			</Card>
 
-			<Divider>Salary Insights</Divider>
-			<Card className="card">
-				<PieChart
-					takeHomePercentage={takeHomePercentageRef.current}
-					incomeTaxPercentage={incomeTaxPercentageRef.current}
-				/>
-			</Card>
-			<Card className="card">
-				<IncomeForecast className="income-forecast" salary={value.current} />
-			</Card>
+			{value.current !== 0 && (
+				<>
+					<Divider>Salary Insights</Divider>
+					<Card className="card">
+						<PieChart
+							takeHomePercentage={takeHomePercentageRef.current}
+							incomeTaxPercentage={incomeTaxPercentageRef.current}
+						/>
+					</Card>
+					<Card className="card">
+						<IncomeForecast
+							className="income-forecast"
+							salary={value.current}
+						/>
+					</Card>
+				</>
+			)}
 		</div>
 	);
 };
