@@ -17,7 +17,7 @@ export const medicareTable: Record<string, MedicareTier> = {
 		grossSalaryMin: 0,
 		grossSalaryMax: 23365,
 		rate: 0 / 100,
-		calculateM: function() {
+		calculateM: function () {
 			return 0;
 		},
 	},
@@ -25,7 +25,7 @@ export const medicareTable: Record<string, MedicareTier> = {
 		grossSalaryMin: 23365,
 		grossSalaryMax: 29207,
 		rate: 1 / 10,
-		calculateM: function(salary: number, weeks: number) {
+		calculateM: function (salary: number, weeks: number) {
 			return ((salary - this.grossSalaryMin) * this.rate) / weeks;
 		},
 	},
@@ -33,7 +33,7 @@ export const medicareTable: Record<string, MedicareTier> = {
 		grossSalaryMin: 29207,
 		grossSalaryMax: Infinity,
 		rate: 2 / 100,
-		calculateM: function(salary: number, weeks: number) {
+		calculateM: function (salary: number, weeks: number) {
 			return (salary * this.rate) / weeks;
 		},
 	},
@@ -47,7 +47,7 @@ export const medicareSurchargeThresholdTable: Record<
 		grossSalaryMin: 0,
 		grossSalaryMax: 90000,
 		rate: 0 / 100,
-		calculateMLS: function() {
+		calculateMLS: function () {
 			return 0;
 		},
 	},
@@ -55,7 +55,7 @@ export const medicareSurchargeThresholdTable: Record<
 		grossSalaryMin: 90001,
 		grossSalaryMax: 105000,
 		rate: 1 / 100,
-		calculateMLS: function(salary: number) {
+		calculateMLS: function (salary: number) {
 			return salary * this.rate;
 		},
 	},
@@ -63,7 +63,7 @@ export const medicareSurchargeThresholdTable: Record<
 		grossSalaryMin: 105001,
 		grossSalaryMax: 140000,
 		rate: 1.25 / 100,
-		calculateMLS: function(salary: number) {
+		calculateMLS: function (salary: number) {
 			return salary * this.rate;
 		},
 	},
@@ -71,7 +71,7 @@ export const medicareSurchargeThresholdTable: Record<
 		grossSalaryMin: 140001,
 		grossSalaryMax: Infinity,
 		rate: 1.5 / 100,
-		calculateMLS: function(salary: number) {
+		calculateMLS: function (salary: number) {
 			return salary * this.rate;
 		},
 	},
@@ -80,10 +80,8 @@ export const medicareSurchargeThresholdTable: Record<
 export const medicareSurchargeThresholdBracket = (salary: number) => {
 	const mlsBracket = Object.keys(medicareSurchargeThresholdTable).find(
 		(key) => {
-			const {
-				grossSalaryMin,
-				grossSalaryMax,
-			} = medicareSurchargeThresholdTable[key];
+			const { grossSalaryMin, grossSalaryMax } =
+				medicareSurchargeThresholdTable[key];
 			return salary >= grossSalaryMin && salary <= grossSalaryMax;
 		}
 	);

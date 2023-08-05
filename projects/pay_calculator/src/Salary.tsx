@@ -276,13 +276,6 @@ const Salary = () => {
 		// eslint-disable-next-line
 	}, [salary, superData, isSuper, isResident, medicare, frequency]);
 
-	useEffect(() => {
-		if (salary && salary <= 18200) {
-			takeHomePercentageRef.current = 0;
-			incomeTaxPercentageRef.current = 0;
-		}
-	}, [salary]);
-
 	const rowClassName = (record: IntialData, index: number): string => {
 		if (index === data.length - 1) return "bold-row";
 

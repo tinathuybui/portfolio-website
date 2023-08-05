@@ -4,7 +4,7 @@ const { Header: AntDHeader } = Layout;
 
 const ITEMS = [
 	{ key: "1", label: "Salary", linkto: "/" },
-	{ key: "2", label: "Super", linkto: "/super" },
+	{ key: "2", label: "Dividend", linkto: "/dividend" },
 ];
 
 const Header = () => {

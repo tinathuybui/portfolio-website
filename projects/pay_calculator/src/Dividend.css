@@ -1,0 +1,28 @@
+.container {
+	padding: 24px;
+}
+
+.form-container {
+	max-width: 400px;
+	margin: 0 auto;
+}
+
+.form-item-label {
+	font-weight: bold;
+}
+
+.submit-button {
+	margin-top: 16px;
+}
+
+.result-container {
+	margin-top: 24px;
+}
+
+.result-text {
+	margin-bottom: 8px;
+}
+
+.ant-input {
+	max-width: 200px;
+}

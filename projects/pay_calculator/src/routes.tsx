@@ -1,5 +1,5 @@
 import Salary from "./Salary";
-import SuperForcast from "./SuperForcast";
+import Dividend from "./Dividendcalculator";
 
 const ROUTES = [
 	{
@@ -7,8 +7,8 @@ const ROUTES = [
 		element: <Salary />,
 	},
 	{
-		path: "/super",
-		element: <SuperForcast />,
+		path: "/Dividend",
+		element: <Dividend />,
 	},
 ];
 

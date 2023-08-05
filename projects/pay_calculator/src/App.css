@@ -67,26 +67,12 @@
 	}
 }
 
-/* Add these styles to your CSS file */
 .pie-chart-container {
 	position: relative;
 }
 
-.print-button {
-	position: absolute;
-	top: 10px;
-	right: 10px;
-	background-color: #007bff;
-	color: #fff;
-	border: none;
-	padding: 8px 12px;
-	border-radius: 4px;
-	cursor: pointer;
-}
-
 .pie-chart {
-	/* Adjust the width and height of the chart container as needed */
 	width: 400px;
 	height: 400px;
-	margin: 0 auto; /* To center the chart horizontally */
+	margin: 0 auto;
 }
